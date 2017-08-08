@@ -1,0 +1,32 @@
+# depslib dependency file v1.0
+1502152261 source:a:\dropbox\_repository\repository\trunk\_softwarerepository\c++code\pokerhandcomparator\main.cpp
+	<iostream>
+	<fstream>
+	<iomanip>
+	<cstdlib>
+	<fstream>
+	"Hand.h"
+
+1502152128 a:\dropbox\_repository\repository\trunk\_softwarerepository\c++code\pokerhandcomparator\card.h
+	"Suit.h"
+	"Value.h"
+	<string>
+
+1501513647 a:\dropbox\_repository\repository\trunk\_softwarerepository\c++code\pokerhandcomparator\suit.h
+
+1501514827 a:\dropbox\_repository\repository\trunk\_softwarerepository\c++code\pokerhandcomparator\value.h
+
+1501758620 a:\dropbox\_repository\repository\trunk\_softwarerepository\c++code\pokerhandcomparator\rank.h
+	"Value.h"
+	"Quality.h"
+	<deque>
+
+1501747122 a:\dropbox\_repository\repository\trunk\_softwarerepository\c++code\pokerhandcomparator\quality.h
+
+1502151408 a:\dropbox\_repository\repository\trunk\_softwarerepository\c++code\pokerhandcomparator\hand.h
+	"Card.h"
+	"Rank.h"
+	<iostream>
+	<vector>
+	<algorithm>
+

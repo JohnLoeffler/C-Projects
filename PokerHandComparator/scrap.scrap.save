@@ -1,0 +1,107 @@
+        switch(i){
+            case 0:
+                r.pushValueBack(Value::TWO);
+                break;
+            case 1:
+                r.pushValueBack(Value::THREE);
+                break;
+            case 2:
+                r.pushValueBack(Value::FOUR);
+                break;
+            case 3:
+                r.pushValueBack(Value::FIVE);
+                break;
+            case 4:
+                r.pushValueBack(Value::SIX);
+                break;
+            case 5:
+                r.pushValueBack(Value::SEVEN);
+                break;
+            case 6:
+                r.pushValueBack(Value::EIGHT);
+                break;
+            case 7:
+                r.pushValueBack(Value::NINE);
+                break;
+            case 8:
+                r.pushValueBack(Value::TEN);
+                break;
+            case 9:
+                r.pushValueBack(Value::JACK);
+                break;
+            case 10:
+                r.pushValueBack(Value::QUEEN);
+                break;
+            case 11:
+                r.pushValueBack(Value::KING);
+                break;
+            case 12:
+                r.pushValueBack(Value::ACE);
+                break;
+            case 13:
+                r.pushValueBack(Value::TWO);
+                break;
+            case 14:
+                r.pushValueBack(Value::THREE);
+                break;
+            case 15:
+                r.pushValueBack(Value::FOUR);
+                break;
+            case 16:
+                r.pushValueBack(Value::FIVE);
+                break;
+            case 17:
+                r.pushValueBack(Value::SIX);
+                break;
+            case 18:
+                r.pushValueBack(Value::SEVEN);
+                break;
+            case 19:
+                r.pushValueBack(Value::EIGHT);
+                break;
+            case 20:
+                r.pushValueBack(Value::NINE);
+                break;
+            case 21:
+                r.pushValueBack(Value::TEN);
+                break;
+            case 22:
+                r.pushValueBack(Value::JACK);
+                break;
+            case 23:
+                r.pushValueBack(Value::QUEEN);
+                break;
+            case 24:
+                r.pushValueBack(Value::KING);
+                break;
+            case 25:
+                r.pushValueBack(Value::ACE);
+                break;
+            default:
+                cout << "Error! Face Value not recognized!" << endl;
+                break;
+        }
+********************************************************************************
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 13; j++){
+        Card card(static_cast<Suit>(i), static_cast<Value>(j));
+        c.push_back(card);
+        }
+    }
+    for(int i = 0; i < 5; i++){
+        if((i+1)%5 == 0)
+            getchar();
+
+        Card a(c[(std::rand()%52)]);
+        Card b(c[(std::rand()%52)]);
+
+        cout << "Which is better, the " << a.getFace() << " or the " << b.getFace() <<
+                "?" << endl;
+        if(a > b)
+            cout << "\t----->\t" << a.getFace() << "\t<-----" << endl;
+        else if(b > a)
+            cout << "\t----->\t" << b.getFace() << "\t<-----" << endl;
+        else
+            cout << "\t----->\t  Equally Ranked\t<-----" << endl;
+    }
+********************************************************************************
