@@ -1,15 +1,22 @@
 /**
- *  NAME:   MAZERUNNER
- *  AUTHOR: JOHN LOEFFLER
- *  CONTACT:JOHN@JOHNLOEFFLER.COM | GITHUB.COM/JOHNLOEFFLER/C-PROJECTS/
- *  INPUT:  A PLAIN TEXT FILE "maze.txt", WITH SETUP INPUTS NEEDED TO BUILD THE
- *          MAZE, FED IN THIS ORDER: NUMBER OF COLUMNS, NUMBER OF ROWS, THE
- *          WHICH COLUMN YOU START IN, WHICH ROW YOU START IN, WHICH COLUMN YOU
- *          END IN, WHICH ROW YOU END IN, FOLLOWED BY A GRID LAYOUT OF THE MAZE,
- *          READ FROM LEFT TO RIGHT, THEN NEXT LINE, WHERE '0' IS AN ACCESSIBLE
- *          CELL AND '1' IS AN INEACCESSIBLE ONE
- *  OUTPUT: PRINTS TO CONSOLE
- *  USE:    NO RESTRICTIONS ON USE, HAVE AT IT
+ *     	This source code was written by the Author on the stated
+ *      	date of creation. You may use this code for any
+ *       	non-Commercial purpose with credit given to the Author.
+ *       	For commercial use, contact the Author at the listed
+ *     		contact method.
+ *
+ *     	mazerunner.cpp
+ *         Date Created:    December 1, 2017
+ *         Type:            program
+ *         Description:     Uses dynamic recursion to navigate a text based maze
+ *         Dependencies:    <fstream>, <iostream>
+ *         Input:           maze.txt
+ *         @version         1.0
+ *         @author          John Loeffler
+ *         Email:           John.Loeffler@gmail.com
+ *         Twitter:         @ThisDotJohn
+ *         LinkedIn:        linkedin.com/in/johnloeffler
+ *         Github:          github.com/JohnLoeffler
  */
 
 #include <iostream>
@@ -84,7 +91,7 @@ int main()
         cout << "=====================================" << endl;
     }
 
-    //  RETURNS MEMORY TO SYSTEM    //
+    //  RELEASES MEMORY     //
 
     for(int i = 0; i<nCol; i++)
         delete[] maze[i];
@@ -93,8 +100,7 @@ int main()
     return 0;
 }
 /**
- *  MAZERUNNER()    -   RECURSIVE, DYNAMIC FUNCTION THAT MAKES DECISIONS BASED
- *                          ON WHICH CELL IT HAS ALREADY VISITED
+ *  MAZERUNNER()
  *  @param  M       -   THE 2-D ARRAY CONTAINING THE MAZE
  *  @param  X       -   INITIALLY, THE STARTING COLUMN X IN ORDERED PAIR (X,Y)
  *                          BUT AFTER RECURSION, THE CURRENT COLUMN
@@ -115,7 +121,7 @@ int main()
 int mazeRunner(int **m, int x, int y, int ex, int ey,
                             int c, int r, int **mx, int& ct){
     //  FLAG CELL AS INACCESSIBLE UNLESS BACKTRACKING
-    //      IF EXIT FOUND, THIS FLAG WILL NOT CHANGE, SHOWING
+    //      IF EXIT FOUND, THIS FLAG WILL NOT CHANGE, ALLOWING YOU TO PRINT THE
     //      SUCCESSFUL PATH THROUGH THE MAZE
     mx[x][y] = 2;
 
