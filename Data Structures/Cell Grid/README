@@ -1,0 +1,1 @@
+A custom structure I wrote to represent a navigable 2D environment for a simulated iRobot Create to navigate, but can be expanded and refined to represent any 2d coordinate space, even the surface of 3D objects like a cylinder or a sphere
