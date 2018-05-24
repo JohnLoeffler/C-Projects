@@ -28,8 +28,6 @@ DNode(D d, DNode* p = nullptr, DNode* n = nullptr){
 
 class DListException : public std::runtime_error{
   std::string Message;
-  const char* File;
-  int         Line;
 public:
   virtual const char* what() const throw(){
     return Message.c_str();
