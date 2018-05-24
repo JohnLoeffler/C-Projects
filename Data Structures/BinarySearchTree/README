@@ -1,1 +1,9 @@
 Generic Implementation of a Binary Search Tree
+
+**
+UPDATED
+**
+
+In the process of converting the old Tree I had uploaded into one that implements a Strategy pattern (I'm obsessing over these lately it seems) to allow for analysing the data in the tree in different ways. The three operations I've built up so far are ADD, MULTIPLY, and PRINT. Once the proof of concept works the way it should, I want to expand it into strings, which could be very useful in some future language processing projects I have planned.
+
+All that said, I mutilated the old tree in the process, but it'll be back to tip top shape in a couple of days.
