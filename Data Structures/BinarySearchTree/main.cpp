@@ -1,34 +1,65 @@
 #include <iostream>
 #include <fstream>
 
-//#include "DLinkedList.hpp"
-#include "Multiplier.hpp"
-#include "Adder.hpp"
-#include "Concatenator.hpp"
-#include "Printer.h"
+#include "Operation.hpp"
 #include "BSTree.hpp"
 #include <random>
 
 int main(){
 
   srand(1);
-  BSTree<int>* Tree = new BSTree<int>();
-  for(int i = 1; i <= 20; i++){
-    int j = rand()%10;
-    Tree->Insert(Tree->GetRoot(), j);
+  BSTree<int>* Tree = new BSTree<int>(50);
+  for(int i = 1; i <= 25; i++){
+    int j = rand()%100;
+    Tree->Insert(Tree->GetRoot(), 1, j);
   }
   Tree->SetOperation(Operation::ADD);
   Tree->PreTraverse(Tree->GetRoot());
-  std::cout << Tree->GetOperator()->ReturnResults() << std::endl << std::endl;
-  Printer<int>* printer = new Printer<int>();
+  Tree->InTraverse(Tree->GetRoot());
+  Tree->PostTraverse(Tree->GetRoot());
+
+  std::cout << Tree->GetCurrentOperator()->ReturnResults_int() << std::endl << std::endl;
+
+  Tree->SetOperation(Operation::MULTIPLY);
+  Tree->PreTraverse(Tree->GetRoot());
+  Tree->InTraverse(Tree->GetRoot());
+  Tree->PostTraverse(Tree->GetRoot());
 
   Tree->SetOperation(Operation::PRINT);
   std::cout << "====================================" << std:: endl;
   Tree->PreTraverse(Tree->GetRoot());
+  Tree->InTraverse(Tree->GetRoot());
+  Tree->PostTraverse(Tree->GetRoot());
   std::cout << "====================================" << std:: endl;
 
+  for(int i = 0; i < 25; i++){
+    int j = rand()%100;
+    Tree->Delete(Tree->GetRoot(), j);
+  }
 
-  //infile.open("Words.txt");
+  std::cout << "====================================" << std:: endl;
+  Tree->PreTraverse(Tree->GetRoot());
+  Tree->InTraverse(Tree->GetRoot());
+  Tree->PostTraverse(Tree->GetRoot());
+  std::cout << "====================================" << std:: endl;
+
+  Tree->DeleteTree(Tree->GetRoot());
+  Tree->Delete(Tree->GetRoot(), Tree->GetRoot()->Data);
+  delete Tree;
+
+  BSTree<std::string> *StrTree = new BSTree<std::string>("Mayor");
+  std::ifstream infile("Words.txt");
+  std::string in;
+  while(!infile.eof()){
+    infile >> in;
+    StrTree->Insert(StrTree->GetRoot(), 1, in);
+  }
+
+  StrTree->SetOperation(Operation::ADD);
+  StrTree->PreTraverse(StrTree->GetRoot());
+  StrTree->InTraverse(StrTree->GetRoot());
+  StrTree->PostTraverse(StrTree->GetRoot());
+
 
   return 0;
 

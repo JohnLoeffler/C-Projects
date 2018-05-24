@@ -11,8 +11,9 @@ struct TNode{
   TNode *Left, *Right;
 
   /** Constructor */
-  TNode(D d){
+  TNode(D d, int dep){
     this->Data = d;
+    this->Depth = dep;
     this->Left = nullptr;
     this->Right= nullptr;
   }
@@ -53,23 +54,15 @@ class BSTree{
   /***************************************************************/
 
   TNode<T>*     Root;
-  Operator<T>*  Optr;
+  Operator*     Optr;
 
 public:
 
-  BSTree(TNode<T>* root = nullptr){
-    this->Root = root;
-
+  BSTree(T d){
+    this->Root = new TNode<T>(d, 1);
+    NodeCount = 1;
+    Depth = 1;
   }
-/*
-  BSTree(TNode<T>* root = nullptr, Operation<T> operation){
-    this->Root = root;
-    Operator = operation;
-    this->NodeCount = 0;
-    this->Depth = 0;
-  }
-*/
-  Operator<T>*  Operator_Cast(Operator<T>* Op){ return Op;}
 
   /**
   * Set the operation to be performed on the tree
@@ -78,17 +71,14 @@ public:
   void SetOperation(Operation operation){
     switch(operation){
     case Operation::PRINT:
-      Optr = Operator_Cast(new Printer<T>());
+      Optr = new Printer();
       break;
     case Operation::ADD:
-      Optr = Operator_Cast(new Adder<T>(0));
+      Optr = new Adder();
       break;
     case Operation::MULTIPLY:
-      Optr = Operator_Cast(new Multiplier<T>(1));
+      Optr = new Multiplier();
       break;
-    //case Operation::CONCAT:
-    //  Optr = Operator_Cast(new Concatenator(""));
-    //  break;
     }
   }
 
@@ -114,7 +104,8 @@ public:
   *
   *
   */
-  Operator<T>*  GetOperator(){return Optr;}
+  Operator*  GetCurrentOperator(){return Optr;}
+
   /**
   * Traverse the tree in Preorder fashion and perform the desired operation
   * @param N The current node
@@ -123,15 +114,15 @@ public:
   void PreTraverse(TNode<T> *N){
     if(N == nullptr){
       return;
-
+    }
       /* Perform an operation with the current node's data */
-      std::cout << "In PreTrav, output is : " << N->Data << std::endl;
+      std::cout << "In PreTrav, output is : ";
       Optr->Operate(N->Data);
 
-      PreTraverse(N->Left);
-      PreTraverse(N->Right);
-    }
+    PreTraverse(N->Left);
+    PreTraverse(N->Right);
   }
+
 
   /**
   * Traverse the tree in Inorder fashion and perform the desired operation
@@ -141,14 +132,15 @@ public:
   void InTraverse(TNode<T> *N){
     if(N == nullptr){
       return;
-
-      InTraverse(N->Left);
-
-      /* Perform an operation with the current node's data */
-      Optr->Operate(N->Data);
-
-      InTraverse(N->Right);
     }
+    InTraverse(N->Left);
+
+    std::cout << "In InTrav, output is : ";
+      /* Perform an operation with the current node's data */
+    Optr->Operate(N->Data);
+
+    InTraverse(N->Right);
+
   }
 
   /**
@@ -159,13 +151,13 @@ public:
   void PostTraverse(TNode<T> *N){
     if(N == nullptr){
       return;
-
-      PostTraverse(N->Left);
-      PostTraverse(N->Right);
-
-      /* Perform an operation with the current node's data */
-      Optr->Operate(N->Data);
     }
+    PostTraverse(N->Left);
+    PostTraverse(N->Right);
+    std::cout << "In PostTrav, output is : ";
+    /* Perform an operation with the current node's data */
+    Optr->Operate(N->Data);
+
   }
 
   /**
@@ -201,19 +193,19 @@ public:
   * @param D The data to insert into the tree
   * @return A pointer to the current node
   */
-  TNode<T>* Insert(TNode<T>* N, T D){
-
+  TNode<T>* Insert(TNode<T>* N, int dep, T D){
+    //std::cout << "In Tree::Insert(), N = [" << N << "], Data param is: " << D << std::endl;
     /* If Node is null, return a new Node using the parameter data */
     if(N == nullptr){
-      return new TNode<T>(D);
+      return new TNode<T>(D, dep);
     }
     /* Else keep traversing the tree until the proper position is found*/
     if(D < N->Data){
-      N->Left = this->Insert(N->Left, D);
-      std::cout << "Data to the Left of [" << N->Data << "] is (" << N->Left->Data << ")\n";
+      N->Left = this->Insert(N->Left, N->Depth+1, D);
+      //std::cout << "Data to the Left of [" << N->Data << "] is (" << N->Left->Data << ")\n";
     }else if(D > N->Data){
-      N->Right= this->Insert(N->Right, D);
-      std::cout << "Data to the Right of [" << N->Data << "] is (" << N->Right->Data << ")\n";
+      N->Right= this->Insert(N->Right, N->Depth+1, D);
+      //std::cout << "Data to the Right of [" << N->Data << "] is (" << N->Right->Data << ")\n";
     }
     return N;
   }
@@ -235,6 +227,7 @@ public:
       N->Right= Delete(N->Right, D);
     else if(N->Data == D){  //  found it
       //  If there is only one or no child nodes
+      std::cout << "Node found, moving to delete...\n";
       if(N->Left == nullptr){
         TNode<T>* temp = N->Right;
         delete N;
@@ -244,6 +237,7 @@ public:
         delete N;
         return temp;
       }
+      std::cout << "\tTwo children at Node, finding minimum value node...";
       /*
       * If there are two child nodes, we need to swap the smallest value that is
       * larger than the value being deleted into the current node and delete
@@ -251,11 +245,23 @@ public:
       * leaf of the right child node
       */
       TNode<T>* temp = MinimumValueNode(N->Right);
-
+      std::cout << "found!\n\t    The value [" << temp->Data << "] will replace"
+                  << " current value [" << N->Data << "]\n";
       N->Data = temp->Data;
       N->Right = Delete(N->Right, temp->Data);
     }
     return N;
+  }
+
+  void DeleteTree(TNode<T>* N){
+    if(N == nullptr){
+      return;
+    }
+
+    DeleteTree(N->Left);
+    DeleteTree(N->Right);
+    delete N->Left;
+    delete N->Right;
   }
 
 };
