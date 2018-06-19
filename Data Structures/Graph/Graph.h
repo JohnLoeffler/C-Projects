@@ -469,6 +469,7 @@ void Graph<T>::AddBiGraphEdge(int VertA, int VertB){
   Adjacent[VertB].add(Adjacent[VertA]);
 }
 
+template<typename T>
 char* Graph<T>::PrintGraph(){
   /* TODO: Implement PrintGraph() Function */
   return " ";
