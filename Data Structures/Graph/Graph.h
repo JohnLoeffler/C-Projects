@@ -421,24 +421,22 @@ void Graph<T>::AddVertex(){
 /* Adds an edge that moves in one direction from one vertex to another */
 template<typename T>
 void Graph<T>::AddDirectedEdge(int From, int To){
-  if(Adjacent == nullptr){
-    throw new GraphException("The graph contains no vertices to connect.\n",
-                               __LINE__,
-                               __FUNCTION__);
-  } else if(From >= NumVertices || From < 0){
+  if(From >= NumVertices || From < 0){
     char* Temp = new char[64];
     char* Num;
     strcpy(Temp, "The origin vertex for the edge, ");
     strcat(Temp, itoa(From, Num, 10));
     strcat(Temp, ", does not exist.\n");
-    throw new GraphException(Temp, __LINE__, __FUNCTION__);
+    std::cerr << Temp << "\n";
+    //throw new GraphException(Temp, __LINE__, __FUNCTION__);
   } else if(To >= NumVertices || To < 0){
     char* Temp = new char[69];
     char* Num;
     strcpy(Temp, "The destination vertex for the edge, ");
     strcat(Temp, itoa(To, Num, 10));
     strcat(Temp, ", does not exist.\n");
-    throw new GraphException(Temp, __LINE__, __FUNCTION__);
+    std::cerr << Temp << "\n";
+    //throw new GraphException(Temp, __LINE__, __FUNCTION__);
   }
   Adjacent[From].add(Adjacent[To]);
 }
@@ -446,24 +444,18 @@ void Graph<T>::AddDirectedEdge(int From, int To){
 /* Adds a bidirectional edge between two vertices */
 template<typename T>
 void Graph<T>::AddBiGraphEdge(int VertA, int VertB){
-  if(Adjacent == nullptr){
-    throw new GraphException("The graph contains no vertices to connect.\n",
-                               __LINE__,
-                               __FUNCTION__);
-  } else if(VertA >= NumVertices || VertA < 0){
+  if(VertA >= NumVertices || VertA < 0){
     char* Temp = new char[64];
     char* Num;
     strcpy(Temp, "The first vertex for the edge, ");
     strcat(Temp, itoa(VertA, Num, 10));
     strcat(Temp, ", does not exist.\n");
-    throw new GraphException(Temp, __LINE__, __FUNCTION__);
   } else if(VertB >= NumVertices || VertB < 0){
     char* Temp = new char[69];
     char* Num;
     strcpy(Temp, "The second vertex for the edge, ");
     strcat(Temp, itoa(VertB, Num, 10));
     strcat(Temp, ", does not exist.\n");
-    throw new GraphException(Temp, __LINE__, __FUNCTION__);
   }
   Adjacent[VertA].add(Adjacent[VertB]);
   Adjacent[VertB].add(Adjacent[VertA]);
