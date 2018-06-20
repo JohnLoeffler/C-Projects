@@ -4,9 +4,9 @@
 
 template <typename D>
 struct TNode{
-    /**Node Metadata**/
+  /*Node Location Data **/
   int Depth, Side;
-    /*****************/
+
   D Data;
   TNode *Left, *Right;
 
@@ -25,34 +25,11 @@ struct TNode{
 };
 
 /**
-* Exception class designed for exceptions specific to the BSTree class
-*/
-/*
-class BSTreeException : std::runtime_error{
-  std::string Message;
-public:
-  virtual const char* what() const throw(){
-    return Message.c_str();
-  }
-  BSTreeException(const char* msg, const char *file, int line) :
-    std::runtime_error(msg){
-        std::stringstream SS;
-        SS << file << ":" << line << ": " << msg;
-        Message = SS.str();
-  }
-  ~DListException() throw() {}
-};
-*/
-/**
 * Generic implementation of a Binary Search Tree
 */
 template <typename T>
 class BSTree{
-  /** These fields are meta data for the structure for analysis **/
-  int NodeCount, Depth;
-  float Weight;//1.0 for Perfect balance, Weighted Left when < 1.0, Right when >
-  /***************************************************************/
-
+  
   TNode<T>*     Root;
   Operator*     Optr;
 
@@ -89,20 +66,8 @@ public:
   TNode<T>* GetRoot(){return this->Root;}
 
   /**
-  * Gets the number of nodes in the tree
-  * @return An int of the number of nodes
-  */
-  int GetNodeCount(){return this->NodeCount;}
-
-  /**
-  * Gets the depth of the longest branch of the tree
-  * @return An int of the number of levels in the tree
-  */
-  int GetDepth(){return this->Depth;}
-
-  /**
-  *
-  *
+  * Gets the current operation being used on the tree
+  * @return A pointer to the Operator being used
   */
   Operator*  GetCurrentOperator(){return Optr;}
 
@@ -135,8 +100,7 @@ public:
     }
     InTraverse(N->Left);
 
-    std::cout << "In InTrav, output is : ";
-      /* Perform an operation with the current node's data */
+    /* Perform an operation with the current node's data */
     Optr->Operate(N->Data);
 
     InTraverse(N->Right);
@@ -154,7 +118,7 @@ public:
     }
     PostTraverse(N->Left);
     PostTraverse(N->Right);
-    std::cout << "In PostTrav, output is : ";
+    
     /* Perform an operation with the current node's data */
     Optr->Operate(N->Data);
 
@@ -174,9 +138,9 @@ public:
   }
 
   /**
-  * Finds the Greatest value in a tree
+  * Finds the Largest value in a tree
   * @param N The current node
-  * @return The lowest value found for the given tree
+  * @return The largest value found for the given tree
   */
   TNode<T>* MaximumValueNode(TNode<T>* N){
     TNode<T>* P = N;
@@ -193,18 +157,17 @@ public:
   * @param D The data to insert into the tree
   * @return A pointer to the current node
   */
-  TNode<T>* Insert(TNode<T>* N, int dep, T D){
-    //std::cout << "In Tree::Insert(), N = [" << N << "], Data param is: " << D << std::endl;
+  TNode<T>* Insert(TNode<T>* N, T D){
     /* If Node is null, return a new Node using the parameter data */
     if(N == nullptr){
       return new TNode<T>(D, dep);
     }
     /* Else keep traversing the tree until the proper position is found*/
     if(D < N->Data){
-      N->Left = this->Insert(N->Left, N->Depth+1, D);
+      N->Left = this->Insert(N->Left, D);
       //std::cout << "Data to the Left of [" << N->Data << "] is (" << N->Left->Data << ")\n";
     }else if(D > N->Data){
-      N->Right= this->Insert(N->Right, N->Depth+1, D);
+      N->Right= this->Insert(N->Right, D);
       //std::cout << "Data to the Right of [" << N->Data << "] is (" << N->Right->Data << ")\n";
     }
     return N;
@@ -227,7 +190,6 @@ public:
       N->Right= Delete(N->Right, D);
     else if(N->Data == D){  //  found it
       //  If there is only one or no child nodes
-      std::cout << "Node found, moving to delete...\n";
       if(N->Left == nullptr){
         TNode<T>* temp = N->Right;
         delete N;
@@ -237,16 +199,14 @@ public:
         delete N;
         return temp;
       }
-      std::cout << "\tTwo children at Node, finding minimum value node...";
-      /*
+      
+        /*
       * If there are two child nodes, we need to swap the smallest value that is
       * larger than the value being deleted into the current node and delete
       * node that held the data we are swapping in, which is in the left most
       * leaf of the right child node
       */
       TNode<T>* temp = MinimumValueNode(N->Right);
-      std::cout << "found!\n\t    The value [" << temp->Data << "] will replace"
-                  << " current value [" << N->Data << "]\n";
       N->Data = temp->Data;
       N->Right = Delete(N->Right, temp->Data);
     }
