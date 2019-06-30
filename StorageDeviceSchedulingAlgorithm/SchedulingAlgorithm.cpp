@@ -12,12 +12,10 @@ void swap(int& a, int& b){
 void SchedulingAlgorithm::Sort(std::vector<int>& Sequence, int start){
   bool isSwapped = true;
   int sorted = 0, pass = 0;
-  while (isSwapped)
-	{
-	  pass++;
-	  isSwapped = false;
+  while (isSwapped){
+    pass++;
+    isSwapped = false;
     for(auto itr = Sequence.begin(); itr != Sequence.end()-1; ++itr){
-      //std::cout << ".";
       if (!this->Compare(*itr , *(itr+1), start)){
         swap(*itr, *(itr+1));
         isSwapped = true;
@@ -46,11 +44,10 @@ void SSTF::Sort(std::vector<int> &Sequence, int start){
   bool isSwapped = true;
   int sorted = 0;
   int lastVisited = start;
-  while (isSwapped)
-	{
+  while (isSwapped){
     isSwapped = false;
     sorted++;
-	  for (int i = 0; i < Sequence.size() - sorted; i++){
+    for (int i = 0; i < Sequence.size() - sorted; i++){
       if (!this->Compare(Sequence[i] , Sequence[i+1], lastVisited)){
         swap(Sequence[i], Sequence[i+1]);
         isSwapped = true;
@@ -79,13 +76,11 @@ bool SCAN::Compare(int a, int b, int h){
         //  numbers are not in proper order, return false
         return false;
       }
-      //  ENDIF
     //  ELSE next number is greater than initial position
     }else{
       //  May or may not be properly ordered, but cannot tell this pass, so
       //    treat them as if properly ordered for now, return true
       return true;
-    // ENDIF
     }
   //  ELSE current number is greater than initial position
   }else{
@@ -104,11 +99,8 @@ bool SCAN::Compare(int a, int b, int h){
         //  numbers aren't properly ordered, return false;1
         return false;
       }
-      //ENDIF
     }
-    //ENDIF
   }
-  //ENDIF
 }
 /*
 * ONLY DIFFERENCE BETWEEN SCAN/CSCAN AND LOOK/CLOOK IMPLEMENTATIONS OF
@@ -131,11 +123,9 @@ int SCAN::CalculateHeadMovement(std::vector<int> sequence, int MaxCylinderNum){
       counter += *itr;
       reachedZero = true;
     }
-    //  ENDIF
     //  ADD DIF(N, N-1) TO MOVEMENTCOUNTER
     Dif = abs(*itr - *(itr+1));
     counter += Dif;
-  //  ENDFOREACH
   }
   //  ADD DIF(MAX_CYLINDER_NUMBER, SEQUENCE.END)
   counter += (MaxCylinderNum - sequence.back());
@@ -173,9 +163,8 @@ bool CSCAN::Compare(int a, int b, int h){
 /* Standard Sorting function */
 void CSCAN::Sort(std::vector<int> &Sequence, int start){
   bool isSwapped = true;
-  while (isSwapped)
-	{
-	  isSwapped = false;
+  while (isSwapped){
+    isSwapped = false;
     for(auto itr = Sequence.begin(); itr != Sequence.end()-1; ++itr){
       if (!this->Compare(*itr , *(itr+1), start)){
         swap(*itr, *(itr+1));
@@ -200,11 +189,9 @@ int CSCAN::CalculateHeadMovement(std::vector<int> sequence, int MaxNumCylinder){
       counter += *itr;
       reachedZero = true;
     }
-    //  ENDIF
     //  ADD DIF(N, N-1) TO MOVEMENTCOUNTER
     Dif = abs(*itr - *(itr+1));
     counter += Dif;
-  //  ENDWHILE
   }
   //  ADD DIF(MAX_CYLINDER_NUMBER, SEQUENCE.END)
   counter += (MaxNumCylinder - sequence.back());
@@ -242,8 +229,7 @@ bool LOOK::Compare(int a, int b, int h){
 void LOOK::Sort(std::vector<int> &Sequence, int start){
   bool isSwapped = true;
   int sorted = 0;
-  while (isSwapped)
-	{
+  while (isSwapped){
     isSwapped = false;
     sorted++;
 	  for (int i = 0; i < Sequence.size() - sorted; i++){
@@ -267,7 +253,6 @@ int LOOK::CalculateHeadMovement(std::vector<int> sequence, int start){
     //  ADD DIF(N, N-1) TO MOVEMENTCOUNTER
     Dif = abs(*itr - *(itr+1));
     counter += Dif;
-  //  ENDWHILE
   }
   return counter;
 }
@@ -324,7 +309,6 @@ int CLOOK::CalculateHeadMovement(std::vector<int> sequence, int start){
     //  ADD DIF(N, N-1) TO MOVEMENTCOUNTER
     Dif = abs(*itr - *(itr+1));
     counter += Dif;
-  //  ENDWHILE
   }
   return counter;
 }
