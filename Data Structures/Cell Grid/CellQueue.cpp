@@ -1,15 +1,8 @@
 /**
- *     	This source code was written by the Author on the stated
- *      	date of creation. You may use this code for any
- *       	non-Commercial purpose with credit given to the Author.
- *       	For commercial use, contact the Author at the listed
- *     		contact method.
- *
  *     	CellQueue.cpp
  *         Date Created:    December 1, 2017
  *         Type:            Implementation file
- *         Description:     Defines the non-trivial functions in 
- *							  CellQueue.h
+ *         Description:     Defines the non-trivial functions in CellQueue.h
  *         Dependencies:    CellQueue.h, <cstdlib>, <iomanip>, <iostream>
  *         @version         1.0
  *         @author          John Loeffler
