@@ -2,8 +2,7 @@
  *     CellNode.h
  *         Date Created:    December 1, 2017
  *         Type:            Data Structure
- *         Description:     A Structure for a traversable Cell in a
- *						   	  2D grid
+ *         Description:     A Structure for a traversable Cell in a 2D grid
  *         Dependencies:    Cell.h, <string>, <sstream>, <iostream>
  *         @version         1.0
  *         @author          John Loeffler
