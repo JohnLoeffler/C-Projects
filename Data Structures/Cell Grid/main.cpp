@@ -1,10 +1,4 @@
 /**
- *     This source code was written by the Author on the stated
- *         date of creation. You may use this code for any
- *         non-Commercial purpose with credit given to the Author.
- *         For commercial use, contact the Author at the listed
- *         contact method.
- *
  *     main.cpp
  *         Date Created:    December 1, 2017
  *         Type:            A main function used to generate a map for a robot to navigate
