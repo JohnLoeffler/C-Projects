@@ -1,10 +1,4 @@
 /**
- *     	This source code was written by the Author on the stated
- *      	date of creation. You may use this code for any
- *       	non-Commercial purpose with credit given to the Author.
- *       	For commercial use, contact the Author at the listed
- *     		contact method.
- *
  *     	CellQueue.h
  *         Date Created:    December 1, 2017
  *         Type:            Data Structure
