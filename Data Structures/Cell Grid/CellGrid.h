@@ -1,10 +1,4 @@
 /**
- *     This source code was written by the Author on the stated
- *         date of creation. You may use this code for any
- *         non-Commercial purpose with credit given to the Author.
- *         For commercial use, contact the Author at the listed
- *         contact method.
- *
  *     CellGrid.h
  *         Date Created:    December 1, 2017
  *         Type:            Data Structure
@@ -138,15 +132,15 @@ public:
   *   @param  e The Coordinates of the ending location
   *   @param  A string containing the map of the grid
   */
-  void findPath                     (Coordinates s, Coordinates e);
+  void        findPath              (Coordinates s, Coordinates e);
   /**
   *   plotPath()
   *     Produces the shortest path between the given starting point the end of a
   *       filled in map as a series of coordinates to navigate by
   *   @param  s The Coordinates of the starting location
   */
-  void plotPath(CellNode* n, int val, int direction,
-                  int &count, std::stringstream &ss);
+  void        plotPath              (CellNode* n, int val, int direction,
+                                      int &count, std::stringstream &ss);
 /**
   *   printCells_Value()
   *     Produces a formatted, multi-lined string of all the cells in the
