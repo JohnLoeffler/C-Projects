@@ -1,10 +1,4 @@
 /**
- *     This source code was written by the Author on the stated
- *         date of creation. You may use this code for any
- *         non-Commercial purpose with credit given to the Author.
- *         For commercial use, contact the Author at the listed
- *         contact method.
- *
  *     Cell.h
  *         Date Created:    December 1, 2017
  *         Type:            A Data type representing the contents of a CellNode
@@ -23,7 +17,7 @@
 #include "Coordinates.h"
 
 struct	Cell{
-  Coordinates	  coord;
+  Coordinates	  	coord;
   int		        value;
   int		        row, column;
 
@@ -39,10 +33,10 @@ struct	Cell{
   *  @param  cm  An int of the column of the cell in relation to a grid map
   */
   Cell(Coordinates cr, int val, int r, int cm){
-	this->coord	  =	cr;
-	this->value	  =	val;
-	this->row		  =	r;
-	this->column  =	cm;
+	this->coord	=	cr;
+	this->value	=	val;
+	this->row	=	r;
+	this->column	=	cm;
   }
   /**
   *  Copy constructor
