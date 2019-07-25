@@ -21,13 +21,13 @@
 * see <https://www.gnu.org/licenses/gpl-3.0.en.html>.
 */
 /**
-* \file player.hpp
+* @file player.hpp
 *
-* \brief An abstract class from which different player types can be derived
+* @brief An abstract class from which different player types can be derived
 *
-* \ingroup GameFramework
+* @ingroup GameFramework
 *
-* \author John Loeffler
+* @author John Loeffler
 * <ul>contact:
 *   <li>John.Loeffler@gmail.com</li>
 *   <li>JohnLoeffler.com</li>
@@ -39,6 +39,7 @@
 #define PLAYER_HPP
 
 class GamePiece;
+class MockGamePiece;
 
 /**
 * Defines the abstract Player class all players derive from
@@ -49,17 +50,58 @@ class GamePiece;
 * action, which can be used by the GameBoard depending on implementation.
 */
 class Player{
-  GamePiece*        GamePieces;
-  int               ID;
+protected:
+  GamePiece**       GamePieces;
+  int               ID, NumGamePieces;
 public:
-                    Player()  {this->GamePieces = nullptr; this->ID = INT_MIN;}
+  /** @fn Player() @brief Default constructor  */
+                    Player();
+  /** @fn ~Player() @brief Destructor */
   virtual           ~Player();
-
-  inline void       SetGamePieces(GamePiece* pieces){this->GamePieces = pieces;}
-  inline void       SetID(int id)                   {this->ID = id;}
-  inline GamePiece* GetGamePieces()                 {return this->GamePieces;}
-  inline int        GetID()                         {return this->ID;}
-
-  virtual void      Action() =0;
+  /**
+  * @fn void SetGamePieces(GamePiece**)
+  * @brief Sets the GamePiece pointer array for the players
+  * @param An array of GamePiece pointers
+  */
+  inline void       SetGamePieces(GamePiece** pieces){this->GamePieces= pieces;}
+  /**
+  * @fn void SetID(int)
+  * @brief Sets the ID of the Player
+  * @param An int of the ID to assign to the player
+  */
+  inline void       SetID(int id)                 {this->ID = id;}
+  /**
+  * @fn void SetNumGamePieces(int)
+  * @brief Sets the number of GamePieces in the GamePiece pointer array
+  * @param An int of the number of pieces
+  */
+  inline void       SetNumberOfGamePieces(int num){this->NumGamePieces = num;}
+  /**
+  * @fn GamePiece** GetGamePieces()
+  * @brief Gets the GamePiece pointer array for the players
+  * @return An array of pointers to the Player's GamePieces
+  */
+  inline GamePiece**GetGamePieces()               {return this->GamePieces;}
+  /**
+  * @fn int GetID()
+  * @brief Gets the ID of the Player
+  * @return An int of the Player's ID
+  */
+  inline int        GetID()                       {return this->ID;}
+  /**
+  * @fn int GetNumGamePieces()
+  * @brief Gets the number of GamePieces in the GamePiece pointer array
+  * @return An int of the number of pieces
+  */
+  inline int        GetNumberOfGamePieces()       {return this->NumGamePieces;}
+  /**
+  * @fn void Action()
+  * @brief Triggers a implementation specific Action or series of Action in the
+  *   player
+  */
+  virtual void      Action()=0;
+protected:
+                    Player(int* value){TestValue = value;}///<Used in Unit Tests
+  int*              TestValue;///<Used in Unit Tests
 };
 #endif // PLAYER_HPP

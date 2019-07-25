@@ -21,16 +21,30 @@
 * see <https://www.gnu.org/licenses/gpl-3.0.en.html>.
 */
 /**
- * @defgroup GameFramework GameFramework
- * @brief Contains all the header files needed for the Game Framework
- */
-#include "game-piece.hpp"
-#include "game-state.hpp"
-#include "game-board.hpp"
-#include "game-controller.hpp"
-#include "game-framework-exception.hpp"
-#include "player.hpp"
-#include "Test/catch.hpp"
-//#include "Test/FakeIt/FakeIt/single_header/catch/fakeit.hpp"
+* @file game-framework-exception.hpp
+*
+* @brief A class of exceptions specific to the GameFramework package.
+*
+* @defgroup Diagnostics Diagnostics
+* @defgroup Exceptions Exceptions @ingroup Diagnostics
+*
+* @author John Loeffler
+* <ul>contact:
+*   <li>John.Loeffler@gmail.com</li>
+*   <li>JohnLoeffler.com</li>
+*   <li>Github.com/JohnLoeffler</li>
+*   <li>LinkedIn.com/in/JohnLoeffler</li>
+* </ul>
+*/
+#ifndef GAMEFRAMEWORKEXCEPTION_HPP
+#define GAMEFRAMEWORKEXCEPTION_HPP
+#pragma once
+  #include <exception>
 
-
+class GameFrameworkException : public std::exception{
+protected:
+  const char* Message;
+public:
+  const char* what(){return Message;}
+};
+#endif // GAMEFRAMEWORKEXCEPTION_HPP

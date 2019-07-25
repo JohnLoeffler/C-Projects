@@ -21,16 +21,22 @@
 * see <https://www.gnu.org/licenses/gpl-3.0.en.html>.
 */
 /**
- * @defgroup GameFramework GameFramework
- * @brief Contains all the header files needed for the Game Framework
- */
-#include "game-piece.hpp"
-#include "game-state.hpp"
-#include "game-board.hpp"
-#include "game-controller.hpp"
-#include "game-framework-exception.hpp"
-#include "player.hpp"
+* @file game-framework-test-runner.cpp
+*
+* @brief Initializes the Catch2 Unit Testing Framework via Header file and
+*   generates main() function as Test Runner. For actual Test Cases, see
+*   @file game-framework-test.cpp
+*
+* @defgroup Testing Testing @ingroup GameFramework
+* @defgroup UnitTests Unit Testing @ingroup Testing
+*
+* @author John Loeffler
+* <ul>contact:
+*   <li>John.Loeffler@gmail.com</li>
+*   <li>JohnLoeffler.com</li>
+*   <li>Github.com/JohnLoeffler</li>
+*   <li>LinkedIn.com/in/JohnLoeffler</li>
+* </ul>
+*/
+#define CATCH_CONFIG_MAIN
 #include "Test/catch.hpp"
-//#include "Test/FakeIt/FakeIt/single_header/catch/fakeit.hpp"
-
-

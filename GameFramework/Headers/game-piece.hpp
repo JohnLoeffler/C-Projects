@@ -21,13 +21,13 @@
 * see <https://www.gnu.org/licenses/gpl-3.0.en.html>.
 */
 /**
-* \file game-piece.hpp
+* @file game-piece.hpp
 *
-* \brief An abstract class from which different game pieces can be derived
+* @brief An abstract class from which different game pieces can be derived
 *
-* \ingroup GameFramework
+* @ingroup GameFramework
 *
-* \author John Loeffler
+* @author John Loeffler
 * <ul>contact:
 *   <li>John.Loeffler@gmail.com</li>
 *   <li>JohnLoeffler.com</li>
@@ -50,40 +50,47 @@ class GamePiece{
   int                 Value;
   int                 ID;
 public:
-  /**  Constructor  */
+  /** @fn GamePiece() @brief Constructor  */
                       GamePiece(){}
-  /**  Destructor   */
-  virtual             ~GamePiece(){}
+  /** @fn ~GamePiece() @brief Destructor  */
+  virtual             ~GamePiece(){++(*TestValue);}
 
   /* Setters and Getters */
   /**
-  * Gets the value of the GamePiece
-  * \return An int of the GamePiece's value
+  * @fn int GetValue()
+  * @brief Gets the value of the GamePiece
+  * @return An int of the GamePiece's value
   */
   int                 GetValue()          {return this->Value;}
   /**
-  * Gets the ID of the GamePiece
-  * \return An int of the GamePiece's ID
+  * @fn int GetID()
+  * @brief Gets the ID of the GamePiece
+  * @return An int of the GamePiece's ID
   */
   int                 GetID()             {return this->ID;}
   /**
-  * Sets the value of the GamePiece
-  * \param An int representing the value to assign to the GamePiece
+  * @fn void SetValue(int)
+  * @brief Sets the value of the GamePiece
+  * @param An int representing the value to assign to the GamePiece
   */
   void                SetValue(int value) {this->Value = value;}
   /**
-  * Sets the ID of the GamePiece
-  * \param An int representing the ID to assign to the GamePiece
+  * @fn void SetID(int)
+  * @brief Sets the ID of the GamePiece
+  * @param An int representing the ID to assign to the GamePiece
   */
   void                SetID(int id)       {this->ID = id;}
 
   /**
-  * \brief      Compares this piece to another GamePiece
-  * \param      A const pointer to a GamePiece
-  * \return     An int representing the result of the comparison
-  * \exception  Exception should be thrown if incompatible GamePiece is passed
+  * @fn int Compare(const GamePiece*)
+  * @brief      Compares this piece to another GamePiece
+  * @param      A const pointer to a GamePiece
+  * @return     An int representing the result of the comparison
+  * @exception  Exception should be thrown if incompatible GamePiece is passed
   */
   virtual int         Compare(const GamePiece*) =0;
+protected:
+                    GamePiece(int* value){TestValue=value;}///<For Unit Tests
+  int*              TestValue;///<Used in Unit Tests
 };
-
 #endif // GAMEPIECE_HPP
