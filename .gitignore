@@ -3,3 +3,10 @@
 ################################################################################
 
 /game-framework/.vs/game-framework/v15
+/.vs
+/game-framework/game-framework.sln.licenseheader
+/game-framework/game-framework.sln
+/game-framework/game-framework/game-framework.vcxproj.filters
+/game-framework/game-framework/game-framework.vcxproj
+/game-framework/.vs/config/applicationhost.config
+*.tlog
