@@ -20,6 +20,10 @@
 *
 * see <https://www.gnu.org/licenses/gpl-3.0.en.html>.
 */
+/**
+ * \defgroup GameFramework GameFramework
+ * \brief Contains all the header files needed for the Game Framework
+ */
 #include "game-piece.hpp"
 #include "game-state.hpp"
 #include "game-board.hpp"
