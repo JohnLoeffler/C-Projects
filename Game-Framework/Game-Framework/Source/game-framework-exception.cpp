@@ -36,13 +36,14 @@
 *   <li>LinkedIn.com/in/JohnLoeffler</li>
 * </ul>
 */
-#include "pch.h"
+#include "../pch.h"
 #include "game-framework-exception.h"
 #include <cstdio>
 
 GameFrameworkException::GameFrameworkException(){
   Message = nullptr;
   File = nullptr;
+  Formatted = nullptr;
   LineNumber = INT_MIN;
 }
 

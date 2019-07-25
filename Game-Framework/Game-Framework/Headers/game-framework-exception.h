@@ -46,7 +46,6 @@ class GameFrameworkException :
 {
   const char* Message;
   const char* File; 
-  const char* Function;
   int         LineNumber;
 
   char* Formatted;

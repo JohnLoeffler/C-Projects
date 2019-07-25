@@ -104,7 +104,19 @@ protected:
   int*              TestValue;///<Used in Unit Tests
 };
 
+template <class Player>
+class vector;
+
+template <class Player>
 class Players{
+  vector<Player> Players;
+public:
+  vector<Player> GetPlayers();
+  unsigned GetNumberOfPlayers();
+  Player RemovePlayer(int);
+  void RemovePlayer(Player);
+  bool AddPlayer(Player);
+
 
 };
 #endif // PLAYER_HPP

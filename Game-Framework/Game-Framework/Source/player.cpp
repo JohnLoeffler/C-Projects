@@ -36,7 +36,7 @@
 *   <li>LinkedIn.com/in/JohnLoeffler</li>
 * </ul>
 */
-#include "pch.h"
+#include "../pch.h"
 #include "../Headers/player.hpp"
 #include "../../include/limits.h"
 Player::Player() noexcept {
