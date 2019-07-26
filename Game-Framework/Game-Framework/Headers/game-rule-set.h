@@ -21,9 +21,9 @@
  * see <https://www.gnu.org/licenses/gpl-3.0.en.html>.
  */
 /**
- * @file game-controller.h
+ * @file game-rule-set.h
  *
- * @brief An abstract class from which different Game Controller types can be derived
+ * @brief An abstract class to build game rules for the controller to use to construct GameBoards
  *
  * @ingroup game-framework
  *
@@ -35,33 +35,16 @@
  *   <li>LinkedIn.com/in/JohnLoeffler</li>
  * </ul>
  */
-#ifndef GAMECONTROLLER_H
-#define GAMECONTROLLER_H
-#pragma once
+#ifndef GAMERULESET_H
+#define GAMERULESET_H
 
-class Players;
-class Player;
-class GameBoard;
-class GamePieces;
-class GameRuleSet;
-/**
- * @brief Defines the abstract GameController class so different controllers can be derived
- *
- * Maps out the contours of an abstract GameController class that can be extended to operate like
- *  and Singleton/Subscriber to a GameBoard on which a game is played. The GameBoard has a reference
- *  to the controller, so it is the GameBoard's responsibility to notify the Controller about changes
- *  in GameState, according to implementation.
- * 
- */
+#pragma once
 namespace GameFrame{
-  class GameController{
-    Players<Player>       CurrentPlayers;
-    GamePieces<GamePiece> Pieces;
-    GameBoard*            Board;
-    GameRuleSet*          Rules;
+  class GameRuleSet{
+
   public:
-    GameController();
-    virtual ~GameController();
+    GameRuleSet();
+    virtual ~GameRuleSet();
   };
 }
-#endif  //  GAMECONTROLLER_H
+#endif  // GAMERULESET_H

@@ -36,16 +36,17 @@
 *   <li>LinkedIn.com/in/JohnLoeffler</li>
 * </ul>
 */
-#include "../pch.h"
-#include "../Headers/player.hpp"
-#include "../../include/limits.h"
-Player::Player() noexcept {
+#include "../Headers/pch.h"
+#include "../Headers/player.h"
+#include <vector>
+
+GameFrame::Player::Player() noexcept {
   this->GamePieces = nullptr;
   this->ID = INT_MIN;
   this->NumGamePieces = INT_MIN;
 }
 
-Player::~Player() {
+GameFrame::Player::~Player() {
   (*TestValue)++;  ///Used to test the Destructor
   if (this->GamePieces != nullptr) {
     for (int i = 0; i < this->NumGamePieces; i++) {
@@ -53,4 +54,30 @@ Player::~Player() {
     }
     this->GamePieces = nullptr;
   }
+}
+
+using namespace GameFrame;
+
+template <class T>
+std::vector<T> GameFrame::Players<T>::GetPlayers(){
+
+}
+template <class T>
+unsigned GameFrame::Players<T>::GetNumberOfPlayers(){
+  return this->Players.size();
+}
+
+template <class T>
+GameFrame::Player* GameFrame::Players<T>::RemovePlayer(int index){
+
+}
+
+template <class T>
+void GameFrame::Players<T>::RemovePlayer(const Player* player){
+
+}
+
+template <class T>
+bool GameFrame::Players<T>::AddPlayer(Player* player){
+
 }

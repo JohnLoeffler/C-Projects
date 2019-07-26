@@ -36,44 +36,46 @@
 *   <li>LinkedIn.com/in/JohnLoeffler</li>
 * </ul>
 */
-#include "../pch.h"
-#include "game-board.hpp"
+#include "../Headers/pch.h"
+#include "../Headers/game-board.h"
 
-GameBoard::GameBoard() noexcept {
-  this->Players = nullptr;
-  this->GamePieces = nullptr;
-  this->CurrentGameController = nullptr;
-  this->CurrentGameState = nullptr;
-  this->NumGamePieces = INT_MIN;
-  this->NumPlayers = INT_MIN;
-  this->TestValue = nullptr;
-}
-
- GameBoard::GameBoard(int* value) noexcept{
-   this->TestValue = value;
-   this->Players = nullptr;
-   this->GamePieces = nullptr;
-   this->CurrentGameController = nullptr;
-   this->CurrentGameState = nullptr;
-   this->NumGamePieces = INT_MIN;
-   this->NumPlayers = INT_MIN;
- }
-
-#pragma warning(suppress: 26432)
-GameBoard::~GameBoard() {
-  (*TestValue)++;
-  this->CurrentGameController = nullptr;
-  this->CurrentGameState = nullptr;
-
-  if (this->Players != nullptr) {
-    for (int i = 0; i < this->NumPlayers; i++) {
-      this->Players[i] = nullptr;
-    }
+namespace GameFrame{
+  GameBoard::GameBoard() noexcept {
+    this->Players = nullptr;
+    this->GamePieces = nullptr;
+    this->CurrentGameController = nullptr;
+    this->CurrentGameState = nullptr;
+    this->NumGamePieces = INT_MIN;
+    this->NumPlayers = INT_MIN;
+    this->TestValue = nullptr;
   }
 
-  if (this->GamePieces != nullptr) {
-    for (int i = 0; i < this->NumGamePieces; i++) {
-      this->GamePieces[i] = nullptr;
+  GameBoard::GameBoard(int* value) noexcept{
+    this->TestValue = value;
+    this->Players = nullptr;
+    this->GamePieces = nullptr;
+    this->CurrentGameController = nullptr;
+    this->CurrentGameState = nullptr;
+    this->NumGamePieces = INT_MIN;
+    this->NumPlayers = INT_MIN;
+  }
+
+#pragma warning(suppress: 26432)
+  GameBoard::~GameBoard() {
+    (*TestValue)++;
+    this->CurrentGameController = nullptr;
+    this->CurrentGameState = nullptr;
+
+    if(this->Players != nullptr) {
+      for(int i = 0; i < this->NumPlayers; i++) {
+        this->Players[i] = nullptr;
+      }
+    }
+
+    if(this->GamePieces != nullptr) {
+      for(int i = 0; i < this->NumGamePieces; i++) {
+        this->GamePieces[i] = nullptr;
+      }
     }
   }
 }

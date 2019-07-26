@@ -38,29 +38,24 @@
 */
 #ifndef GAMEFRAMEWORKEXCEPTION_HPP
 #define GAMEFRAMEWORKEXCEPTION_HPP
-
+#pragma once
 #include <exception>
 
-class GameFrameworkException :
-  public std::exception
-{
-  const char* Message;
-  const char* File; 
-  int         LineNumber;
+namespace GameFrame{
+  class GameFrameworkException :
+    public std::exception
+  {
+    const char* Message;
+    const char* File;
+    int         LineNumber;
 
-  char* Formatted;
-public:
-  
-  GameFrameworkException();
-  
-  GameFrameworkException(const char* message);
-
-  GameFrameworkException(const char* message, const char* file = __FILE__, int lineNumber = __LINE__);
-
-  ~GameFrameworkException();
-
-  const char* what();
-
-
-};
+    char* Formatted;
+  public:
+    GameFrameworkException();
+    GameFrameworkException(const char* message);
+    GameFrameworkException(const char* message, const char* file = __FILE__, int lineNumber = __LINE__);
+    ~GameFrameworkException();
+    const char* what();
+  };
+}
 #endif // GAMEFRAMEWORKEXCEPTION_HPP

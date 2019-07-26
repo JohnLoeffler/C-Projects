@@ -36,11 +36,11 @@
 *   <li>LinkedIn.com/in/JohnLoeffler</li>
 * </ul>
 */
-#include "../pch.h"
-#include "game-framework-exception.h"
+#include "../Headers/pch.h"
+#include "../Headers/game-framework-exception.h"
 #include <cstdio>
 
-GameFrameworkException::GameFrameworkException(){
+GameFrame::GameFrameworkException::GameFrameworkException(){
   Message = nullptr;
   File = nullptr;
   Formatted = nullptr;
@@ -48,7 +48,7 @@ GameFrameworkException::GameFrameworkException(){
 }
 
 
-GameFrameworkException::GameFrameworkException(const char* message) {
+GameFrame::GameFrameworkException::GameFrameworkException(const char* message) {
   Message = message;
   File = nullptr;
   LineNumber = INT_MIN;
@@ -58,7 +58,7 @@ GameFrameworkException::GameFrameworkException(const char* message) {
 
 
 
-GameFrameworkException::GameFrameworkException(const char* message, const char* file, int lineNumber) {
+GameFrame::GameFrameworkException::GameFrameworkException(const char* message, const char* file, int lineNumber) {
   Message = message;
   File = file;
   LineNumber = lineNumber;
@@ -67,12 +67,12 @@ GameFrameworkException::GameFrameworkException(const char* message, const char* 
 
 }
 
-GameFrameworkException::~GameFrameworkException(){
+GameFrame::GameFrameworkException::~GameFrameworkException(){
   if (Message != nullptr)  {delete[] Message;}
   if (File != nullptr)     {delete[] File;}
   if (Formatted != nullptr){delete[] Formatted;}
 }
 
-const char* GameFrameworkException::what(){
+const char* GameFrame::GameFrameworkException::what(){
   return Formatted;
 }

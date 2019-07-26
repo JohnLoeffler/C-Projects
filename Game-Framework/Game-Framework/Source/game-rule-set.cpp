@@ -20,12 +20,13 @@
  *
  * see <https://www.gnu.org/licenses/gpl-3.0.en.html>.
  */
+
 /**
- * @file game-controller.h
+ * @file ${File}
  *
- * @brief An abstract class from which different Game Controller types can be derived
+ * @brief Implementation of default GameRuleSet behavior
  *
- * @ingroup game-framework
+ * @ingroup ${ProjectName}
  *
  * @author John Loeffler
  * <ul>contact:
@@ -35,33 +36,14 @@
  *   <li>LinkedIn.com/in/JohnLoeffler</li>
  * </ul>
  */
-#ifndef GAMECONTROLLER_H
-#define GAMECONTROLLER_H
-#pragma once
+#include "../Headers/pch.h"
+#include "../Headers/game-rule-set.h"
 
-class Players;
-class Player;
-class GameBoard;
-class GamePieces;
-class GameRuleSet;
-/**
- * @brief Defines the abstract GameController class so different controllers can be derived
- *
- * Maps out the contours of an abstract GameController class that can be extended to operate like
- *  and Singleton/Subscriber to a GameBoard on which a game is played. The GameBoard has a reference
- *  to the controller, so it is the GameBoard's responsibility to notify the Controller about changes
- *  in GameState, according to implementation.
- * 
- */
-namespace GameFrame{
-  class GameController{
-    Players<Player>       CurrentPlayers;
-    GamePieces<GamePiece> Pieces;
-    GameBoard*            Board;
-    GameRuleSet*          Rules;
-  public:
-    GameController();
-    virtual ~GameController();
-  };
+GameFrame::GameRuleSet::GameRuleSet(){
+
 }
-#endif  //  GAMECONTROLLER_H
+
+
+GameFrame::GameRuleSet::~GameRuleSet(){
+
+}
