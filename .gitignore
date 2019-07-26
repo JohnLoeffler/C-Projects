@@ -10,3 +10,5 @@
 /game-framework/game-framework/game-framework.vcxproj
 /game-framework/.vs/config/applicationhost.config
 *.tlog
+/Game-Framework/Release
+/Game-Framework/Game-Framework/Source/Source.rar
