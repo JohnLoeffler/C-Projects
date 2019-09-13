@@ -12,3 +12,5 @@
 *.tlog
 /Game-Framework/Release
 /Game-Framework/Game-Framework/Source/Source.rar
+/Game-Framework/Game-Framework/Release
+/CppProperties.json
