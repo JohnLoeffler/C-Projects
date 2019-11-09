@@ -24,9 +24,9 @@ namespace GameFrame{
   class GameRuleSet;
   
   /*  Wrapper classes to make managing pieces and players easier  */
-  template <class GamePiece>
+  template <class T>
   class GamePieces;
-  template <class Player>
+  template <class T>
   class Players;
 }
 #endif //PCH_H

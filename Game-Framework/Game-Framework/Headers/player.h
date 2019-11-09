@@ -33,6 +33,7 @@
 *   <li>JohnLoeffler.com</li>
 *   <li>Github.com/JohnLoeffler</li>
 *   <li>LinkedIn.com/in/JohnLoeffler</li>
+*   <li>Twitter.com/ThisDotJohn</li>
 * </ul>
 */
 #ifndef PLAYER_HPP
@@ -41,7 +42,7 @@
 #pragma once
 
 class GamePiece;
-class Players;
+
 /**
 * Defines the abstract Player class all players derive from
 *
@@ -52,113 +53,153 @@ class Players;
 */
 namespace GameFrame{
   class Player{
+  
   protected:
     GamePiece**       GamePieces;
-    int               ID, NumGamePieces;
+    int               ID, NumberOfGamePieces;
+    int*              SuperTestValue;
+
+    /**
+    * @fn Player(int*)
+    * @brief Parameterized constructor that allows Unit testing of destructor functionality.
+    * @param A pointer to an int representing the address of the external variable to be changed
+    */
+    Player(int* value);
+  
   public:
-    /** @fn Player() @brief Default constructor  */
-    Player() noexcept;
-  /** @fn ~Player() @brief Destructor */
+    /** 
+    * @fn Player() 
+    * @brief Default constructor  
+    */
+    Player();
+     /** 
+    * @fn ~Player() 
+    * @brief Destructor 
+    */
     virtual ~Player();
+
+    /* Setters */
     /**
     * @fn void SetGamePieces(GamePiece**)
     * @brief Sets the GamePiece pointer array for the players
     * @param An array of GamePiece pointers
     */
-    inline void SetGamePieces(GamePiece** pieces){ this->GamePieces = pieces; }
+    void SetGamePieces(GamePiece** pieces)  { this->GamePieces = pieces; }
     /**
     * @fn void SetID(int)
     * @brief Sets the ID of the Player
     * @param An int of the ID to assign to the player
     */
-    inline void SetID(int id) { this->ID = id; }
+    void SetID(int id)  { this->ID = id; }
     /**
     * @fn void SetNumGamePieces(int)
     * @brief Sets the number of GamePieces in the GamePiece pointer array
     * @param An int of the number of pieces
     */
-    inline void SetNumberOfGamePieces(int num) { this->NumGamePieces = num; }
+    void SetNumberOfGamePieces(int number)  { this->NumberOfGamePieces = number; }
+    
+    /* Getters */
     /**
     * @fn GamePiece** GetGamePieces()
     * @brief Gets the GamePiece pointer array for the players
     * @return An array of pointers to the Player's GamePieces
     */
-    inline GamePiece**GetGamePieces() { return this->GamePieces; }
+    GamePiece** GetGamePieces()  { return this->GamePieces; }
     /**
     * @fn int GetID()
     * @brief Gets the ID of the Player
     * @return An int of the Player's ID
     */
-    inline int GetID() { return this->ID; }
+    int GetID()  { return this->ID; }
     /**
     * @fn int GetNumGamePieces()
     * @brief Gets the number of GamePieces in the GamePiece pointer array
     * @return An int of the number of pieces
     */
-    inline int GetNumberOfGamePieces() { return this->NumGamePieces; }
+    int GetNumberOfGamePieces()  { return this->NumberOfGamePieces; }
+
+    /* Functional Methods */
     /**
     * @fn void Action()
     * @brief Triggers a implementation specific Action or series of Action in the
     *   player
     */
-    virtual void Action() = 0;
-  protected:
-    /** 
-    * @brief Should only be used by derived classes in a Unit Testing context. Value
-    *   survives destructor, so use it to verify that destructor or other private 
-    *   methods are called 
-    * @param A pointer to an int representing the address of the external register
-    */
-    Player(int* value){ TestValue = value; ID = -1; NumGamePieces = -1; GamePieces = nullptr; }
-    int*              TestValue;
+    virtual bool Action() = 0;  
   };
 
   /**
-   *  @brief Defines a wrapper class for a group of Players to make managing them easier
-   * 
-   *  Provides a wrapper for a vector of Players to make managing them easier
-   */
+  * @brief Declares a wrapper class for a group of Players to make grouping and managing them easier
+  */
   template <class T>
   class Players{
-    std::vector<T> Players;
-  public:
-    
-    Players(){}
+  protected:
+    std::vector<T*> VectorOfPlayers; // The vector for the wrapper class that hold pointers to the game's Players
+    int*            SuperTestValue;  // A pointer to an int value that was allocated outside the scope of this class.
 
-    virtual ~Players(){}
     /**
-    * @fn vector<Player*> GetGamePieces()
+    * @fn Players(int*)
+    * @brief Parameterized constructor to allow for testing of destructor function on external reference variable
+    * @param int* A pointer to an int variable that can be persistently changed by the class destructor
+    */
+    Players(int* value);
+
+  public:
+
+    /**
+    * @fn Players()
+    * @brief Default constructor for the wrapper class
+    */
+    Players() { this->SuperTestValue = nullptr; }
+    
+    /**
+    * @fn ~Players()
+    * @brief Virtual destructor for the wrapper class
+    */
+    virtual ~Players(){ if(this->SuperTestValue != nullptr) (*this->SuperTestValue)++; }
+    
+    /* Setters */
+    
+    inline void SetPlayers(std::vector<T*> players);
+
+    /* Getters */
+    /**
+    * @fn vector<Player*> GetPlayers()
     * @brief Gets the encapsulated vector of the players
     * @return A vector of pointers to a group of Players
     */
-    std::vector<T> GetPlayers();
+    std::vector<T*> GetPlayers();
     /**
     * @fn unsigned GetNumberOfPlayers()
     * @brief Gets the number of Players in the vector
     * @return An unsigned int of the number of Players
     */
-    unsigned GetNumberOfPlayers();
+    size_t GetNumberOfPlayers();
+
+    /* Functional Methods */
     /**
-    * @fn Player* RemovePlayer(int)
-    * @brief Removes the player at the given index, shifting 
-    *   any players behind them one index forward
-    * @return A pointer to the Player removed from the vector
+    * @fn T* RemovePlayer(T*, int)
+    * @brief Removes the player at the given index, shifting
+    *   any players behind them one index forward, and points the param pointer to 
+    *   location of Player in memory.
+    * @param T An external pointer that will hold the address of the removed player
+    * @param int The index of the Player in the Players vector
+    * @return true, if the player was successfully removed, false otherwise
     */
-    Player* RemovePlayer(int);
+    bool RemovePlayer(T*, int);
     /**
     * @fn void RemovePlayer(const Player*)
     * @brief Alternative to indexing, removes param player from
     *   vector if found, shifting all players behind them
     *   forward by one.
+    * @return true, if the player was successfully removed, false otherwise
     */
-    void RemovePlayer(const Player*);
+    bool RemovePlayer(const T*);
     /**
     * @fn bool AddPlayer(Player*)
     * @brief Adds a player to the back of the vector
-    * @return True if everything was successful, false if 
-    *   player couldn't be added
+    * @return True if player was successfully added, false otherwise
     */
-    bool AddPlayer(Player*);
+    bool AddPlayer(T*);
   };
 }
 #endif // PLAYER_HPP

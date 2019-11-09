@@ -38,11 +38,10 @@
 #ifndef GAMECONTROLLER_H
 #define GAMECONTROLLER_H
 #pragma once
-
 class Players;
 class Player;
 class GameBoard;
-class GamePieces;
+class GamePiece;
 class GameRuleSet;
 /**
  * @brief Defines the abstract GameController class so different controllers can be derived
@@ -55,12 +54,29 @@ class GameRuleSet;
  */
 namespace GameFrame{
   class GameController{
-    Players<Player>       CurrentPlayers;
-    GamePieces<GamePiece> Pieces;
-    GameBoard*            Board;
-    GameRuleSet*          Rules;
+  protected:
+    Players<Player*>        CurrentPlayers;
+    GamePieces<GamePiece*>  Pieces;
+    GameBoard*              Board;
+    GameRuleSet*            Rules;
+
+    int*                    SuperTestValue;  // External reference variable for unit testing purposes
+    /**
+    * @fn GameController(int*)
+    * @brief Parameterized constructor to allow for testing of destructor function on external reference variable
+    * @param int* A pointer to an int variable that can be persistently changed by the class destructor
+    */
+    GameController(int* value);
   public:
+    /**
+    * @fn GameController()
+    * @brief Default constructor
+    */
     GameController();
+    /**
+    * @fn ~GameController()
+    * @brief Virtual destructor
+    */
     virtual ~GameController();
   };
 }
