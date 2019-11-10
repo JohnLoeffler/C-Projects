@@ -1,11 +1,10 @@
 #include "CppUnitTest.h"
-#include "../Game-Framework/Headers/game-player.h"
 #include "../Game-Framework/Headers/pch.h"
 #include "stdafx.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace GameFrameworkUnitTests {
-  TEST_CLASS(PlayerUnitTest){
+  TEST_CLASS(GamePlayerUnitTest){
   public :
     
     // Create Derived Tester Classes for Abstract 'Player' Class 
@@ -67,13 +66,15 @@ namespace GameFrameworkUnitTests {
       ~PlayersTestClass(){ if( this->SuperTestWrapperValue != nullptr ) ++(*this->SuperTestWrapperValue); }
     };
 
+    PlayerTestClass*           testPlayer;
+    PlayersTestClass*          testPlayers;
+
     TEST_CLASS_INITIALIZE(Class_Setup){
-      GameFramework::GamePlayer* testPlayer = nullptr;
-      GameFramework::GamePlayer* testPlayerGroup = nullptr;
+
     }
 
     TEST_METHOD_INITIALIZE(Method_Setup){
-
+      
     }
 
     TEST_METHOD(Player_ctor){
@@ -110,36 +111,81 @@ namespace GameFrameworkUnitTests {
 
   };
 
-  TEST_CLASS(Players){
-    public :
+  TEST_CLASS(GamePlayers){
+  public :
 
-      TEST_METHOD(Players_ctor){
+    TEST_METHOD(GamePlayers_ctor){
 
-      }
+    }
 
-      TEST_METHOD(Players_dtor){
+    TEST_METHOD(GamePlayers_dtor){
 
-      }
+    }
 
-      TEST_METHOD(Players_GetPlayers){
+    TEST_METHOD(GamePlayers_GetPlayers){
 
-      }
+    }
 
-      TEST_METHOD(Players_GetNumberOfPlayers){
+    TEST_METHOD(GamePlayers_GetNumberOfPlayers){
 
-      }
+    }
 
-      TEST_METHOD(Players_RemovePlayerAtIndex){
+    TEST_METHOD(GamePlayers_RemovePlayerAtIndex){
 
-      }
+    }
 
-      TEST_METHOD(Players_RemovePlayerAtAddress){
+    TEST_METHOD(GamePlayers_RemovePlayerAtAddress){
 
-      }
+    }
 
-      TEST_METHOD(Players_AddPlayer){
+    TEST_METHOD(GamePlayers_AddPlayer){
 
-      }  
+    }
+  };
+
+  TEST_CLASS(GamePiece){
+    public:
+
+  };
+
+  TEST_CLASS(GamePieces){
+  public:
+
+  };
+
+  TEST_CLASS(GameAction){
+  public:
+
+  };
+
+  TEST_CLASS(GameBoard){
+  public:
+
+  };
+
+  TEST_CLASS(GameController){
+  public:
+
+  };
+
+  TEST_CLASS(GameRuleSet){
+  public:
+
+  };
+
+  TEST_CLASS(GameState){
+  public:
+
+  };
+
+  TEST_CLASS(GameFrameworkException){
+  public:
+
+  };
+
+  TEST_CLASS(GameRules){
+  public:
+
   };
 }
 
