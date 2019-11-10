@@ -1,57 +1,75 @@
 #include "CppUnitTest.h"
-#include "../Game-Framework/Headers/player.h"
+#include "../Game-Framework/Headers/game-player.h"
+#include "../Game-Framework/Headers/pch.h"
 #include "stdafx.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace GameFrameworkUnitTests {
   TEST_CLASS(PlayerUnitTest){
   public :
-    class PlayerTestClass : public GameFrame::Player{
-      // DerivedTestValue is the
-      int* DerivedTestValue;
+    
+    // Create Derived Tester Classes for Abstract 'Player' Class 
+    class PlayerTestClass : public GameFramework::GamePlayer{
       
       /**
      * @fn PlayerTestClass(int*)
      * @brief Parameterized constructor to allow for testing of destructor function on external reference variable
      * @param int* A pointer to an int variable that can be persistently changed by the class destructor 
      */
-      PlayerTestClass(int* value) : GameFrame::Player(value) { this->DerivedTestValue = value; }
+      PlayerTestClass(int* value) : GamePlayer(value){
+        
+      }
       /**
      * @fn PlayerTestClass()
      * @brief Default constructor
      */
-      PlayerTestClass() : GameFrame::Player() { this->DerivedTestValue = nullptr; }
+      PlayerTestClass() : GamePlayer() { }
       /**
-     * @fn Players()
-     * @brief Default constructor
+     * @fn ~Players()
+     * @brief Destructor
      */
-      virtual ~PlayerTestClass(){
-        if(this->DerivedTestValue != nullptr){
-          (*DerivedTestValue)++;
+      ~PlayerTestClass(){
+        if(this->GetSuperTestValue() != nullptr){
+          ++(*this->GetSuperTestValue());
         }else{
-          this->DerivedTestValue = new int(-2613394);
+          this->SetSuperTestValue(new int(-1081));
         }
-        if(this->GamePieces != nullptr){
-          delete [] this->GamePieces;
-          this->GamePieces = nullptr;
+        if(this->GetGamePieces() != nullptr){
+          GamePiece** pieces = this->GetGamePieces();
+          this->SetGamePieces(nullptr);
+          for(int i = 0; i < this->GetNumberOfGamePieces(); i++){
+            GamePiece* temp = pieces[i];
+            pieces[i] = nullptr;
+            delete temp;
+          }
+          delete [] pieces;
         }
       }
+      
       /**
-     * @fn Players()
-     * @brief Default constructor
+     * @fn bool Action(int*)
+     * @brief The abstract method that is the base behavior for Player-derived objects
      */
-      bool Action(int *value){
+      bool Perform(GameAction* value = nullptr){
         if(value == nullptr){
-          return false;
-        }else{
-          (*value) = -1081;
           return true;
+        }else{
+          return false;
         }
       }
     };
 
+    class PlayersTestClass : public GameFramework::GamePlayers{
+      PlayersTestClass(int* value) : GamePlayers(value){ }
+      
+      PlayersTestClass() : GamePlayers(nullptr){ }
+
+      ~PlayersTestClass(){ if( this->SuperTestWrapperValue != nullptr ) ++(*this->SuperTestWrapperValue); }
+    };
+
     TEST_CLASS_INITIALIZE(Class_Setup){
-      GameFrame::Player* testPlayer = nullptr;
+      GameFramework::GamePlayer* testPlayer = nullptr;
+      GameFramework::GamePlayer* testPlayerGroup = nullptr;
     }
 
     TEST_METHOD_INITIALIZE(Method_Setup){

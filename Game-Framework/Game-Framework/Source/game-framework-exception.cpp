@@ -38,41 +38,42 @@
 */
 #include "../Headers/pch.h"
 #include "../Headers/game-framework-exception.h"
-#include <cstdio>
 
-GameFrame::GameFrameworkException::GameFrameworkException(){
-  Message = nullptr;
-  File = nullptr;
-  Formatted = nullptr;
-  LineNumber = INT_MIN;
+
+GameFramework::GameFrameworkException::GameFrameworkException(){
+  this->Message   = nullptr;
+  this->File      = nullptr;
+  this->Formatted = nullptr;
+  this->LineNumber= INT_MIN;
 }
 
 
-GameFrame::GameFrameworkException::GameFrameworkException(const char* message) {
-  Message = message;
-  File = nullptr;
-  LineNumber = INT_MIN;
-  Formatted = new char[2048];
+GameFramework::GameFrameworkException::GameFrameworkException(const char* message) {
+  this->Message    = message;
+  this->File       = nullptr;
+  this->LineNumber = INT_MIN;
+  this->Formatted  = new char[2048];
+  
   sprintf_s(Formatted, 2048, "GameFrameworkException Thrown: %s", message);
 }
 
 
 
-GameFrame::GameFrameworkException::GameFrameworkException(const char* message, const char* file, int lineNumber) {
-  Message = message;
-  File = file;
-  LineNumber = lineNumber;
-  Formatted = new char[2048];
+GameFramework::GameFrameworkException::GameFrameworkException(const char* message, const char* file, int lineNumber) {
+  this->Message = message;
+  this->File = file;
+  this->LineNumber = lineNumber;
+  this->Formatted = new char[2048];
   sprintf_s(Formatted, 2048, "GameFrameworkException Thrown: |%s|[%d]: %s", File, LineNumber, Message);
 
 }
 
-GameFrame::GameFrameworkException::~GameFrameworkException(){
-  if (Message != nullptr)  {delete[] Message;}
-  if (File != nullptr)     {delete[] File;}
-  if (Formatted != nullptr){delete[] Formatted;}
+GameFramework::GameFrameworkException::~GameFrameworkException(){
+  if (this->Message != nullptr)  {delete Message;}
+  if (this->File != nullptr)     {delete File;}
+  if (this->Formatted != nullptr){delete Formatted;}
 }
 
-const char* GameFrame::GameFrameworkException::what(){
-  return Formatted;
+const char* GameFramework::GameFrameworkException::what(){
+  return this->Formatted;
 }

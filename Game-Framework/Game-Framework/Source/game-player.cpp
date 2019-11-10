@@ -34,80 +34,85 @@
 *   <li>JohnLoeffler.com</li>
 *   <li>Github.com/JohnLoeffler</li>
 *   <li>LinkedIn.com/in/JohnLoeffler</li>
+*   <li>Twitter.com/ThisDotJohn</li>
 * </ul>
 */
 #include "../Headers/pch.h"
-#include <vector>
 
 /* 'Player' Class Definitions */
 
-GameFrame::Player::Player() {
+GameFramework::GamePlayer::GamePlayer() {
   this->GamePieces = nullptr;
-  this->ID = INT_MIN;
+  this->PieceID = INT_MIN;
   this->NumberOfGamePieces = INT_MIN;
   this->SuperTestValue = nullptr;
 }
 
-GameFrame::Player::Player(int* value) {
+GameFramework::GamePlayer::GamePlayer(int* value) {
   this->GamePieces = nullptr;
-  this->ID = INT_MIN;
+  this->PieceID = INT_MIN;
   this->NumberOfGamePieces = INT_MIN;
   this->SuperTestValue = value;
 }
 
-GameFrame::Player::~Player() { if(SuperTestValue != nullptr) (*this->SuperTestValue)++; }
-
-bool GameFrame::Player::Action(){}
+GameFramework::GamePlayer::~GamePlayer() { if(this->SuperTestValue != nullptr) ++(*this->SuperTestValue); }
 
 /* 
-* 'Players' Wrapper Class Definitions 
+* 'GamePlayers' Wrapper Class Definitions 
 */
 
-// Parameterized Ctor //
-template <class T>
-GameFrame::Players<T>::Players(int* value) { this->SuperTestValue = value; }
+// Parameterized Constructor //
+GameFramework::GamePlayers::GamePlayers(int* value) { this->SuperTestWrapperValue = value; }
 
 // Setters //
-template <class T>
-inline void GameFrame::Players<T>::SetPlayers(std::vector<T*> players) { this->VectorOfPlayers = players; }
+inline void GameFramework::GamePlayers::SetGamePlayers(std::vector<GameFramework::GamePlayer*> players) { this->VectorOfPlayers = players; }
 
 // Getters //
-template <class T>
-inline std::vector<T*> GameFrame::Players<T>::GetPlayers() { return this->VectorOfPlayers; }
+inline std::vector<GameFramework::GamePlayer*> GameFramework::GamePlayers::GetGamePlayers() { return this->VectorOfPlayers; }
 
-template <class T>
-inline unsigned GameFrame::Players<T>::GetNumberOfPlayers() { return this->VectorOfPlayers.size(); }
+inline unsigned GameFramework::GamePlayers::GetNumberOfGamePlayers() { return this->VectorOfPlayers.size(); }
 
 // Functional Methods //
-template <class T>
-bool GameFrame::Players<T>::RemovePlayer(T* player, int index){
+bool GameFramework::GamePlayers::RemoveGamePlayer(int index){
   // Validate parameters and object initialization //
-  if(this->VectorOfPlayers == nullptr)                  { return false; }
-  if(index < 0 || index > this->VectorOfPlayers.size()) { return false; }
+  if(index < 0 || (unsigned)index > this->VectorOfPlayers.size())    { return false; }
+  if(this->VectorOfPlayers.size() == 0)                              { return false; }
+
+  // Remove player from vector and validate deletion //
+  size_t temp = this->VectorOfPlayers.size();
+  this->VectorOfPlayers.erase(this->VectorOfPlayers.begin() + index);
+
+  // Report results //
+  return (this->VectorOfPlayers.size() == (temp - 1) ? true : false);
+}
+
+bool GameFramework::GamePlayers::RemoveGamePlayer(GameFramework::GamePlayer* player, int index){
+  // Validate parameters and object initialization //
+  if(player == nullptr)                                              { return false; }
+  if(index < 0 || (unsigned)index > this->VectorOfPlayers.size())    { return false; }
+  if(this->VectorOfPlayers.size() == 0)                              { return false; }
   
   // Pull player from vector and validate removal //
   size_t temp = this->VectorOfPlayers.size();
   player = this->VectorOfPlayers.at(index);
-  this->VectorOfPlayers.erase(index);
+  this->VectorOfPlayers.erase(this->VectorOfPlayers.begin() + index);
 
   // Report results //
   return (this->VectorOfPlayers.size() == (temp-1) ? true:false);
 }
 
-template <class T>
-bool GameFrame::Players<T>::RemovePlayer(const T* player){
+bool GameFramework::GamePlayers::RemoveGamePlayer(const GameFramework::GamePlayer* player){
   // Validate parameters and object initialization //
-  if(player == nullptr){ return false; }
-  if(this->VectorOfPlayers == nullptr){ return false; }
-  if(this->VectorOfPlayers.size() <= 0){ return false; }
+  if(player == nullptr)                                              { return false; }
+  if(this->VectorOfPlayers.size() <= 0)                              { return false; }
 
   // Locate any instance of player in vector and remove them //
   bool flag = false;
-  for(int i = 0; i < this->VectorOfPlayers.size(); i++){
+  for(unsigned i = 0; i < this->VectorOfPlayers.size(); i++){
     if(this->VectorOfPlayers.at(i) == player){
-      this->VectorOfPlayers.erase(i);
+      this->VectorOfPlayers.erase(this->VectorOfPlayers.begin() + i);
       
-      // player found and removed //
+      // Player found and removed from group//
       flag = true; 
     }
   }
@@ -116,14 +121,12 @@ bool GameFrame::Players<T>::RemovePlayer(const T* player){
   return flag; 
 }
 
-template <class T>
-bool GameFrame::Players<T>::AddPlayer(T* player){
+bool GameFramework::GamePlayers::AddGamePlayer(GamePlayer* player){
   // Validate parameters and object initialization //
-  if(player == nullptr) return false;
+  if(player == nullptr)                                              {return false;}
   
   // Add pointer to player to the vector, validate operation, and report result //
   size_t temp = this->VectorOfPlayers.size();
   this->VectorOfPlayers.emplace_back(player);
   return (this->VectorOfPlayers.size() == (1+temp) ? true:false);
 }
-

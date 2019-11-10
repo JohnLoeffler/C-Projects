@@ -39,7 +39,7 @@
 #define GAMERULESET_H
 
 #pragma once
-namespace GameFrame{
+namespace GameFramework{
   class GameRuleSet{
 
   public:

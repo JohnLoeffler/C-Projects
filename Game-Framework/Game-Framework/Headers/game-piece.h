@@ -39,7 +39,8 @@
 #ifndef GAMEPIECE_HPP
 #define GAMEPIECE_HPP
 #pragma once
-#include <vector>
+#include "../Headers/pch.h"
+
 /**
 *  An abstract class from which other game pieces can be derived
 *
@@ -48,42 +49,56 @@
 *   derived from this class. As such, the 'Compare' method must be defined for
 *   each derived type
 */
-namespace GameFrame{
-  class GamePiece{
-    int                 Value;
-    int                 ID;
-  public:
-    /** @fn GamePiece() @brief Constructor  */
-    GamePiece(){ Value = -1; ID = -1; TestValue = nullptr; }
-  /** @fn ~GamePiece() @brief Destructor  */
-    virtual             ~GamePiece(){ ++(*TestValue); }
 
-    /* Setters and Getters */
+namespace GameFramework{
+  class GamePiece{
+  protected:
+    int*         SuperTestValue;
+    int          Value, PieceID, NextID;
+
     /**
+    * @fn GamePiece(int*)
+    * @brief Parameterized contructor to unit test destructor functionality
+    * @param int Pointer to an external variable which will record changes made by destructor
+    */
+     GamePiece(int* value);
+  public:
+     /** @fn GamePiece() @brief Default Constructor  */
+     GamePiece();
+
+     /** @fn ~GamePiece() @brief Destructor  */
+     virtual ~GamePiece();
+
+     // Getters //
+     /**
     * @fn int GetValue()
     * @brief Gets the value of the GamePiece
     * @return An int of the GamePiece's value
     */
-    int                 GetValue()          { return this->Value; }
+    int     GetValue()         { return this->Value; }
     /**
-    * @fn int GetID()
-    * @brief Gets the ID of the GamePiece
-    * @return An int of the GamePiece's ID
+    * @fn int GetPieceID()
+    * @brief Returns an identifying ID for the piece
+    * @return An int of the GamePiece's ID number
     */
-    int                 GetID()             { return this->ID; }
+    int     GetPieceID()       { return this->PieceID; }
+
+    // Setters //
     /**
     * @fn void SetValue(int)
     * @brief Sets the value of the GamePiece
     * @param An int representing the value to assign to the GamePiece
     */
-    void                SetValue(int value) { this->Value = value; }
+    void    SetValue(int value){ this->Value = value; }
     /**
     * @fn void SetID(int)
     * @brief Sets the ID of the GamePiece
     * @param An int representing the ID to assign to the GamePiece
     */
-    void                SetID(int id)       { this->ID = id; }
+    void    SetPieceID(int id) { this->PieceID = id; }
 
+
+    // Functional Methods //
     /**
     * @fn int Compare(const GamePiece*)
     * @brief      Compares this piece to another GamePiece
@@ -91,20 +106,39 @@ namespace GameFrame{
     * @return     An int representing the result of the comparison
     * @exception  Exception should be thrown if incompatible GamePiece is passed
     */
-    virtual int         Compare(const GamePiece*) = 0;
-  protected:
-    GamePiece(int* value){ Value = -1; ID = -1;  TestValue = value; }///<For Unit Tests
-    int*              TestValue;///<Used in Unit Tests
+    int     Compare(GamePiece* rhs) { return(this->GetValue() - rhs->GetValue()); }
+
+    bool    IncrementID(){++NextID;}
   };
-  template <class T>
+}
+
+  /**
+  * @brief A wrapper class for a collections of GamePieces to make grouping and managing them easier
+  */
+namespace GameFramework{
   class GamePieces{
-    std::vector<T*>  Pieces;
+  protected:
+    
+    int*                                   SuperTestWrapperValue;
+    std::vector<GameFramework::GamePiece*> Pieces;
+    
+    GamePieces(int* value);
   public:
-    std::vector<T*> GetGamePieces() noexcept { return Pieces; }
-    unsigned GetNumberOfGamePieces() { return Pieces.size(); }
-    unsigned AddGamePiece(T*);
-    T* RemoveGamePiece(int);
-    void RemoveGamePiece(T*);
+    
+    GamePieces();
+    virtual ~GamePieces();
+
+    // Setters //
+
+    // Getters //
+    std::vector<GameFramework::GamePiece*> GetGamePieces()        { return this->Pieces;  }
+    size_t                                 GetNumberOfGamePieces(){ return this->Pieces.size(); }
+
+    // Functional Methods //
+    bool                                   AddGamePiece(GameFramework::GamePiece*);
+    bool                                   RemoveGamePiece(GameFramework::GamePiece*, int);
+    bool                                   RemoveGamePiece(int);
+    bool                                   RemoveGamePiece(const GameFramework::GamePiece*);
   };
 }
 #endif // GAMEPIECE_HPP

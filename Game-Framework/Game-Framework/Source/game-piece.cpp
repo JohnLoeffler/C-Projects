@@ -37,42 +37,85 @@
 * </ul>
 */
 
-#include "../Headers/pch.h"
 #include "../Headers/game-piece.h"
+#include "../Headers/pch.h"
 
-template<class GamePiece>
-unsigned GameFrame::GamePieces<GamePiece>::AddGamePiece(GamePiece* piece){
-  for(int i = 0; i < Pieces.size(); i++){
-    if(Pieces.at(i) == piece){
-      return Pieces.size();
-    }
-  }
-  this->Pieces.push_back(piece);
-  return this->Pieces.size();
+GameFramework::GamePiece::GamePiece(){
+  PieceID = NextID; IncrementID(); Value = 1; SuperTestValue = nullptr;
 }
 
-template <class GamePiece>
-GamePiece* GameFrame::GamePieces<GamePiece>::RemoveGamePiece(int index){
-  if(index < 0 || index >= this->Pieces.size()){
-    char buf[256];
-    sprintf_s(buf, 256, "Index passed to RemoveGamePiece is out of bounds| Index: %d Size: %d", index, this->Pieces.size());
-    throw new GameFrameworkException(buf);
-  }
-  GamePiece* piece = this->Pieces.at(index);
-  this->Pieces.erase(index);
-  return piece;
+GameFramework::GamePiece::GamePiece(int* value){
+  Value = *value; 
+  PieceID = NextID; 
+  IncrementID(); 
+  SuperTestValue = value;
 }
 
-template <class GamePiece>
-void GameFrame::GamePieces<GamePiece>::RemoveGamePiece(GamePiece* piece){
-  if (piece == nullptr) {
-    char buf[256];
-    sprintf_s(buf, 256,"GamePiece* passed to RemoveGamePiece is a nullptr.");
-    throw new GameFrameworkException(buf);
-  }
-  for(int i = 0; i < Pieces.size(); i++){
-    if(Pieces.at(i) == piece){
-      Pieces.erase(i);
+GameFramework::GamePiece::~GamePiece(){ ++(*this->SuperTestValue); }
+
+////////////////////////////////////
+/* GamePieces Wrapper Definitions */
+////////////////////////////////////
+
+GameFramework::GamePieces::GamePieces(){
+  this->SuperTestWrapperValue = nullptr;
+}
+
+GameFramework::GamePieces::GamePieces(int* value){
+  *this->SuperTestWrapperValue = *value;
+}
+
+GameFramework::GamePieces::~GamePieces()   { ++(*this->SuperTestWrapperValue); }
+
+bool GameFramework::GamePieces::AddGamePiece(GameFramework::GamePiece* piece){
+  // Validate parameter and object initialization //
+  if(piece == nullptr)                                      { return false; }
+
+  // Add piece, verify operation, and report results //
+  size_t temp = this->Pieces.size();
+  Pieces.emplace_back(piece);
+  return (this->Pieces.size() == (temp + 1) ? true : false);
+}
+
+
+bool GameFramework::GamePieces::RemoveGamePiece(int index){
+  // Validate parameter and object initialization //
+  if(index < 0 || (unsigned) index >= this->Pieces.size() ) { return false; }
+  if(this->Pieces.size() == 0)                              { return false; }
+
+  // Remove piece at Index, verify operation, and report results //
+  size_t temp = this->Pieces.size();
+  this->Pieces.erase(this->Pieces.begin()+index);
+  return (this->Pieces.size() == (temp-1) ? true:false);
+}
+
+bool GameFramework::GamePieces::RemoveGamePiece(const GameFramework::GamePiece* piece) {
+  // Validate parameter and object initialization //
+  if(piece == nullptr)                                      { return false; }
+  if(this->Pieces.size() == 0)                              { return false; }
+  
+  // Search for piece in vector, remove all instances of it, verify operations, and report results //
+  unsigned count = 0, temp = this->Pieces.size();
+  
+  for(unsigned i = 0; i < this->Pieces.size(); i++){
+    if(this->Pieces.at(i) == piece){
+      count++;
+      this->Pieces.erase(this->Pieces.begin() + i);
+      i--;
     }
   }
+  return (this->Pieces.size() == (temp - count) ? true : false);
+}
+
+bool GameFramework::GamePieces::RemoveGamePiece(GameFramework::GamePiece* piece, int index){
+  // Validate parameters and object instantiation //
+  if( index < 0 || (unsigned) index >= this->Pieces.size())  { return false; }
+  
+  // Assign pointer from vector to external reference variable //
+  piece = this->Pieces.at(index);
+
+  // Remove piece at Index, verify operation, and report results //
+  size_t temp = this->Pieces.size();
+  this->Pieces.erase(this->Pieces.begin() + index);
+  return (this->Pieces.size() == (temp - 1) ? true : false);
 }

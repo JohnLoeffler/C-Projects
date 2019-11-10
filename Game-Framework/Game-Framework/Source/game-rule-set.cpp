@@ -36,14 +36,16 @@
  *   <li>LinkedIn.com/in/JohnLoeffler</li>
  * </ul>
  */
+
+#pragma once
 #include "../Headers/pch.h"
 #include "../Headers/game-rule-set.h"
 
-GameFrame::GameRuleSet::GameRuleSet(){
-
+GameFramework::GameRuleSet::GameRuleSet(){
+  
 }
 
 
-GameFrame::GameRuleSet::~GameRuleSet(){
+GameFramework::GameRuleSet::~GameRuleSet(){
 
 }

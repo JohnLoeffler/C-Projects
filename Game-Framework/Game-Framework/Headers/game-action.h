@@ -24,7 +24,7 @@
 /**
 * @file ${File}
 *
-* @brief A class for GameFramework specific exceptions
+* @brief An abstract class from which different player behavior or actions can be derived
 *
 * @ingroup ${ProjectName}
 *
@@ -34,28 +34,16 @@
 *   <li>JohnLoeffler.com</li>
 *   <li>Github.com/JohnLoeffler</li>
 *   <li>LinkedIn.com/in/JohnLoeffler</li>
+*   <li>Twitter.com/ThisDotJohn</li>
 * </ul>
 */
-#ifndef GAMEFRAMEWORKEXCEPTION_HPP
-#define GAMEFRAMEWORKEXCEPTION_HPP
+#ifndef GAMEACTION_HPP
+#define GAMEACTION_HPP
 #pragma once
-#include "../Headers/pch.h"
-
 namespace GameFramework{
-  class GameFrameworkException :
-    public std::exception
-  {
-    const char* Message;
-    const char* File;
-    int         LineNumber;
-
-    char* Formatted;
+  class GameAction{
   public:
-    GameFrameworkException();
-    GameFrameworkException(const char* message);
-    GameFrameworkException(const char* message, const char* file = __FILE__, int lineNumber = __LINE__);
-    ~GameFrameworkException();
-    const char* what();
+    virtual ~GameAction() = 0;
   };
 }
-#endif // GAMEFRAMEWORKEXCEPTION_HPP
+#endif  // GAMEACTION_HPP

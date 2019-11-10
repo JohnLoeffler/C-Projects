@@ -36,46 +36,62 @@
 *   <li>LinkedIn.com/in/JohnLoeffler</li>
 * </ul>
 */
-#include "../Headers/pch.h"
 #include "../Headers/game-board.h"
+#include "../Headers/pch.h"
 
-namespace GameFrame{
-  GameBoard::GameBoard() noexcept {
-    this->Players = nullptr;
-    this->GamePieces = nullptr;
-    this->CurrentGameController = nullptr;
-    this->CurrentGameState = nullptr;
-    this->NumGamePieces = INT_MIN;
-    this->NumPlayers = INT_MIN;
-    this->TestValue = nullptr;
-  }
 
-  GameBoard::GameBoard(int* value) noexcept{
-    this->TestValue = value;
-    this->Players = nullptr;
-    this->GamePieces = nullptr;
-    this->CurrentGameController = nullptr;
-    this->CurrentGameState = nullptr;
-    this->NumGamePieces = INT_MIN;
-    this->NumPlayers = INT_MIN;
-  }
+GameFramework::GameBoard::GameBoard(){
+  this->GamePlayers = nullptr;
+  this->GamePieces = nullptr;
+  this->CurrentGameController = nullptr;
+  this->CurrentGameState = nullptr;
+  this->NumberOfGamePieces = INT_MIN;
+  this->NumberOfPlayers = INT_MIN;
+  this->SuperTestValue = nullptr;
+}
 
-#pragma warning(suppress: 26432)
-  GameBoard::~GameBoard() {
-    (*TestValue)++;
-    this->CurrentGameController = nullptr;
-    this->CurrentGameState = nullptr;
+GameFramework::GameBoard::GameBoard(int* value){
+  this->SuperTestValue = value;
+  this->GamePlayers = nullptr;
+  this->GamePieces = nullptr;
+  this->CurrentGameController = nullptr;
+  this->CurrentGameState = nullptr;
+  this->NumberOfGamePieces = INT_MIN;
+  this->NumberOfPlayers = INT_MIN;
+  this->SuperTestValue = nullptr;
+}
 
-    if(this->Players != nullptr) {
-      for(int i = 0; i < this->NumPlayers; i++) {
-        this->Players[i] = nullptr;
-      }
-    }
+//#pragma warning(suppress: 26432)
+GameFramework::GameBoard::~GameBoard(){
+  ++(*SuperTestValue);
+  this->CurrentGameController = nullptr;
+  this->CurrentGameState = nullptr;
 
-    if(this->GamePieces != nullptr) {
-      for(int i = 0; i < this->NumGamePieces; i++) {
-        this->GamePieces[i] = nullptr;
-      }
+  if(this->GamePlayers != nullptr) {
+    for(int i = 0; i < this->NumberOfPlayers; i++) {
+      this->GamePlayers[i] = nullptr;
     }
   }
+
+  if(this->GamePieces != nullptr) {
+    for(int i = 0; i < this->NumberOfGamePieces; i++) {
+      this->GamePieces[i] = nullptr;
+    }
+  }
+}
+
+bool GameFramework::GameBoard::Setup(){
+
+}
+
+bool GameFramework::GameBoard::BeginPlay(){
+
+}
+
+bool GameFramework::GameBoard::Finalize(){
+
+}
+
+bool GameFramework::GameBoard::ReportGameState(){
+
 }

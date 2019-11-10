@@ -38,11 +38,16 @@
 #ifndef GAMECONTROLLER_H
 #define GAMECONTROLLER_H
 #pragma once
-class Players;
-class Player;
+#include "../Headers/pch.h"
+
+class GamePlayers;
+class GamePlayer;
 class GameBoard;
 class GamePiece;
+class GamePieces;
 class GameRuleSet;
+class GameController;
+
 /**
  * @brief Defines the abstract GameController class so different controllers can be derived
  *
@@ -52,32 +57,33 @@ class GameRuleSet;
  *  in GameState, according to implementation.
  * 
  */
-namespace GameFrame{
+namespace GameFramework{
+  using namespace GameFramework;
   class GameController{
   protected:
-    Players<Player*>        CurrentPlayers;
-    GamePieces<GamePiece*>  Pieces;
-    GameBoard*              Board;
-    GameRuleSet*            Rules;
+    GamePlayers*  CurrentPlayers;
+    GamePieces*   ControllerPieces;
+    GameBoard*    Board;
+    GameRuleSet*  Rules;
 
-    int*                    SuperTestValue;  // External reference variable for unit testing purposes
+    int*          SuperTestValue;  // External reference variable for unit testing purposes
     /**
     * @fn GameController(int*)
     * @brief Parameterized constructor to allow for testing of destructor function on external reference variable
     * @param int* A pointer to an int variable that can be persistently changed by the class destructor
     */
-    GameController(int* value);
+            GameController(int* value);
   public:
     /**
     * @fn GameController()
     * @brief Default constructor
     */
-    GameController();
+            GameController();
     /**
     * @fn ~GameController()
     * @brief Virtual destructor
     */
-    virtual ~GameController();
+    virtual ~GameController(){}
   };
 }
 #endif  //  GAMECONTROLLER_H

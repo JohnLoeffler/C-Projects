@@ -38,9 +38,8 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 
-#pragma once
-
-class Player;
+#include "../Headers/pch.h"
+class GamePlayer;
 
 /**
  * @brief Defines the abstract GameState class for Game data objects
@@ -49,28 +48,28 @@ class Player;
  *  be extended to contain all kinds of game data, even making it possible to save a game
  *  and come back to it later
  */
-namespace GameFrame{
+namespace GameFramework{
   class GameState{
-    const Player*   Winner;
-    int             Score;
-    int*            TestValue;
+    const GamePlayer*   Winner;
+    int                 Score;
+    int*                SuperTestValue;
   public:
     /** @fn GameState() @brief Default Constructor */
-    GameState(){ Winner = nullptr; Score = -1; TestValue = nullptr; }
+    GameState(){ Winner = nullptr; Score = -1; SuperTestValue = nullptr; }
     /** @fn ~GameState() @brief Destructor */
-    virtual ~GameState(){ ++(*TestValue); Winner = nullptr; TestValue = nullptr; }
+    virtual ~GameState(){ ++(*SuperTestValue); Winner = nullptr; SuperTestValue = nullptr; }
     /**
     * @fn void SetWinner(const Player*)
     * @brief Sets the winner of the game or round of the game
     * @param An const pointer to the Player who won the game
     */
-    void            SetWinner(const Player* player){ this->Winner = player; }
+    void            SetWinner(const GamePlayer* player){ this->Winner = player; }
     /**
     * @fn const Player* GetWinner()
      * @brief Gets the winner of the game or round of the game
      * @return A const pointer to the Player who won the game
     */
-    const Player*   GetWinner(){ return this->Winner; }
+    const GamePlayer*GetWinner(){ return this->Winner; }
     /**
     * @fn void SetScore(int)
     * @brief Sets the Winning Score or current high score

@@ -40,7 +40,7 @@
 #pragma once
 /* Forward declare necessary classes */
 
-class Player;
+class GamePlayer;
 class GamePiece;
 class GameState;
 class GameController;
@@ -55,74 +55,77 @@ class GameController;
 *   that need to be implemented are 'Setup', 'BeginPlay', 'Finalize', and
 *   'ReportGameState'
 */
-namespace GameFrame{
+namespace GameFramework{
   class GameBoard{
   protected:
-    Player**        Players;
-    int             NumPlayers;
+    GamePlayer**    GamePlayers;
+    int             NumberOfPlayers;
     GamePiece**     GamePieces;
-    int             NumGamePieces;
+    int             NumberOfGamePieces;
     GameState*      CurrentGameState;
     GameController* CurrentGameController;
+
+    int*            SuperTestValue;
+
+                    GameBoard(int* value);
   public:
     /** @fn GameBoard() @brief Default Constructor */
-    GameBoard() noexcept;
+                    GameBoard();
   /** @fn ~GameBoard() @brief Destructor */
     virtual         ~GameBoard();
 
-    //////////////////////////////////////////////////////////////
-    /////////// Begin Getters and Setters  ///////////////////////
-    //////////////////////////////////////////////////////////////
+    // Getters //
     /**
-    * @fn Player** GetPlayers()
+    * @fn GamePlayer** GetGamePlayers()
     * @brief Gets the Player pointer array from the GameBoard
     * @return The Player pointer array for the players playing on the GameBoard
     */
-    Player**        GetPlayers() noexcept { return this->Players; }
+    GamePlayer**    GetGamePlayers()       { return this->GamePlayers; }
     /**
     * @fn int GetNumberOfPlayers()
     * @brief Gets the number of Players currently playing on the GameBoard
     * @return An int of the number of players currently playing on the GameBoard
     */
-    int             GetNumberOfPlayers() noexcept { return this->NumPlayers; }
+    int             GetNumberOfPlayers()   { return this->NumberOfPlayers; }
     /**
     * @fn GamePiece** GetGamePieces()
     * @brief Gets the GamePiece pointer array from the GameBoard
     * @return The GamePiece pointer array for the pieces used by the GameBoard
     */
-    GamePiece**     GetGamePieces() noexcept { return this->GamePieces; }
+    GamePiece**     GetGamePieces()        { return this->GamePieces; }
     /**
     * @fn int GetNumberOfGamePieces()
     * @brief Gets the number of GamePieces currently in play on the GameBoard
     * @return An int of the number of GamePieces in play on the GameBoard
     */
-    int             GetNumberOfGamePieces() noexcept { return this->NumGamePieces; }
+    int             GetNumberOfGamePieces(){ return this->NumberOfGamePieces; }
     /**
     * @fn GameState* GetGameState()
     * @brief Gets the GameState pointer from the GameBoard with details about the
     *   current state of the game
     * @return A pointer to the current GameState of the GameBoard
     */
-    GameState*      GetGameState() noexcept { return this->CurrentGameState; }
+    GameState*      GetGameState()         { return this->CurrentGameState; }
     /**
     * @fn GameController* GetGameController()
     * @brief Gets the pointer to the current GameController for the GameBoard
     * @return A pointer to the current GameController for the GameBoard
     */
-    GameController* GetGameController() noexcept { return this->CurrentGameController; }
+    GameController* GetGameController()    { return this->CurrentGameController; }
 
+    // Setters //
     /**
     * @fn void SetPlayers(Player**)
     * @brief Sets the Player pointer array from the GameBoard
     * @param The Player pointer array for the players playing on the GameBoard
     */
-    void            SetPlayers(Player** players){ this->Players = players; }
+    void            SetGamePlayers(GamePlayer** players){ this->GamePlayers = players; }
     /**
     * @fn void SetNumberOfPlayers(int)
     * @brief Sets number of Players currently playing on the GameBoard
     * @param An int of the number of Players playing on the GameBoard
     */
-    void            SetNumberOfPlayers(int num){ this->NumPlayers = num; }
+    void            SetNumberOfPlayers(int num){ this->NumberOfPlayers = num; }
     /**
     * @fn void SetGamePieces(GamePieces)
     * @brief Sets the GamePiece pointer array from the GameBoard
@@ -134,7 +137,7 @@ namespace GameFrame{
     * @brief Sets the number of GamePieces in play on the board
     * @param An int of the number of GamePieces in play on the board
     */
-    void            SetNumberOfGamePieces(int num){ this->NumGamePieces = num; }
+    void            SetNumberOfGamePieces(int num){ this->NumberOfGamePieces = num; }
     /**
     * @fn void SetGameState(GameState*)
     * @brief Sets the current GameState of the GameBoard (Useful for saved games)
@@ -146,47 +149,38 @@ namespace GameFrame{
     * @brief Sets the GameController for the GameBoard
     * @param A pointer to the GameController for the GameBoard
     */
-    void            SetGameController(GameController* controller)
-    {
-      this->CurrentGameController = controller;
-    }
-  //////////////////////////////////////////////////////////////
-  /////////// End Getters and Setters  /////////////////////////
-  //////////////////////////////////////////////////////////////
-
-  /* Pure Virtual Methods */
-  /**
-  * @fn void Setup()
-  * @brief GameController calls this to initialize the GameBoard according to
-  *   a given GameState or an implementation specific default
-  * @exception GFW::GameFrameworkException An exception should be thrown when
-  *   GameBoard does not have all the requisite components to build the
-  *   GameState (method could setup a default setup if it has no GameState at
-  *   time of call).
-  */
-    virtual void    Setup() = 0;
+    void            SetGameController(GameController* controller){ this->CurrentGameController = controller; }
+  
+    /* Pure Virtual Methods */
+    /**
+    * @fn void Setup()
+    * @brief GameController calls this to initialize the GameBoard according to
+    *   a given GameState or an implementation specific default
+    * @exception GFW::GameFrameworkException An exception should be thrown when
+    *   GameBoard does not have all the requisite components to build the
+    *   GameState (method could setup a default setup if it has no GameState at
+    *   time of call).
+    */
+    virtual bool    Setup() = 0;
     /**
     * @fn void BeginPlay()
     * @brief GameController calls this to tell the GameBoard to begin playing the
     *   game. Before this method returns, either the main game loop should be run
     *   or the method that runs the main game loop should be called.
     */
-    virtual void    BeginPlay() = 0;
+    virtual bool    BeginPlay() = 0;
     /**
     * @fn void Finalize()
     * @brief Called by GameBoard after the main game loop ends to record the
     *   outcome of the game or round of the game
     */
-    virtual void    Finalize() = 0;
+    virtual bool    Finalize() = 0;
     /**
     * @fn void ReportGameState()
     * @brief Called by GameBoard to notify the GameController about a significant
     *   change in the current GameState;
     */
-    virtual void    ReportGameState() = 0;
-  protected:
-    GameBoard(int* value) noexcept;///<For Unit Tests
-    int*            TestValue;///<Used in Unit Tests
+    virtual bool    ReportGameState() = 0;
   };
 }
 #endif // GAMEBOARD_HPP
