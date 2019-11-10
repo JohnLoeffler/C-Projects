@@ -38,6 +38,7 @@
 #ifndef GAMEBOARD_HPP
 #define GAMEBOARD_HPP
 #pragma once
+#include "../Headers/pch.h"
 /* Forward declare necessary classes */
 
 class GamePlayer;
@@ -67,12 +68,57 @@ namespace GameFramework{
 
     int*            SuperTestValue;
 
-                    GameBoard(int* value);
   public:
-    /** @fn GameBoard() @brief Default Constructor */
-                    GameBoard();
-  /** @fn ~GameBoard() @brief Destructor */
-    virtual         ~GameBoard();
+    /**
+    * @fn GameBoard()
+    * @brief Default Constructor
+    */
+    GameBoard(){
+      this->GamePlayers = nullptr;
+      this->GamePieces = nullptr;
+      this->CurrentGameController = nullptr;
+      this->CurrentGameState = nullptr;
+      this->NumberOfGamePieces = INT_MIN;
+      this->NumberOfPlayers = INT_MIN;
+      this->SuperTestValue = nullptr;
+    }
+    /** 
+    * @fn GameBoard(int*) 
+    * @brief Parameterized Constructor 
+    */
+    GameBoard(int* value){
+      this->SuperTestValue = value;
+      this->GamePlayers = nullptr;
+      this->GamePieces = nullptr;
+      this->CurrentGameController = nullptr;
+      this->CurrentGameState = nullptr;
+      this->NumberOfGamePieces = INT_MIN;
+      this->NumberOfPlayers = INT_MIN;
+      this->SuperTestValue = nullptr;
+    }
+    /** 
+    * @fn ~GameBoard() 
+    * @brief Destructor 
+    */
+    virtual ~GameBoard(){
+      ++(*SuperTestValue);
+      this->CurrentGameController = nullptr;
+      this->CurrentGameState = nullptr;
+
+      if(this->GamePlayers != nullptr){
+        for(int i = 0; i < this->NumberOfPlayers; i++){
+          this->GamePlayers[i] = nullptr;
+        }
+      }
+      delete [] this->GamePlayers;
+
+      if(this->GamePieces != nullptr){
+        for(int i = 0; i < this->NumberOfGamePieces; i++){
+          this->GamePieces[i] = nullptr;
+        }
+      }
+      delete[] this->GamePieces;
+    }
 
     // Getters //
     /**
@@ -80,38 +126,38 @@ namespace GameFramework{
     * @brief Gets the Player pointer array from the GameBoard
     * @return The Player pointer array for the players playing on the GameBoard
     */
-    GamePlayer**    GetGamePlayers()       { return this->GamePlayers; }
+    GamePlayer** GetGamePlayers(){ return this->GamePlayers; }
     /**
     * @fn int GetNumberOfPlayers()
     * @brief Gets the number of Players currently playing on the GameBoard
     * @return An int of the number of players currently playing on the GameBoard
     */
-    int             GetNumberOfPlayers()   { return this->NumberOfPlayers; }
+    int     GetNumberOfPlayers(){ return this->NumberOfPlayers; }
     /**
     * @fn GamePiece** GetGamePieces()
     * @brief Gets the GamePiece pointer array from the GameBoard
     * @return The GamePiece pointer array for the pieces used by the GameBoard
-    */
-    GamePiece**     GetGamePieces()        { return this->GamePieces; }
+    */ 
+    GamePiece** GetGamePieces(){ return this->GamePieces; }
     /**
     * @fn int GetNumberOfGamePieces()
     * @brief Gets the number of GamePieces currently in play on the GameBoard
     * @return An int of the number of GamePieces in play on the GameBoard
     */
-    int             GetNumberOfGamePieces(){ return this->NumberOfGamePieces; }
+    int     GetNumberOfGamePieces(){ return this->NumberOfGamePieces; }
     /**
     * @fn GameState* GetGameState()
     * @brief Gets the GameState pointer from the GameBoard with details about the
     *   current state of the game
     * @return A pointer to the current GameState of the GameBoard
     */
-    GameState*      GetGameState()         { return this->CurrentGameState; }
+    GameState* GetGameState()  { return this->CurrentGameState; }
     /**
     * @fn GameController* GetGameController()
     * @brief Gets the pointer to the current GameController for the GameBoard
     * @return A pointer to the current GameController for the GameBoard
     */
-    GameController* GetGameController()    { return this->CurrentGameController; }
+    GameController* GetGameController(){ return this->CurrentGameController; }
 
     // Setters //
     /**
@@ -119,37 +165,37 @@ namespace GameFramework{
     * @brief Sets the Player pointer array from the GameBoard
     * @param The Player pointer array for the players playing on the GameBoard
     */
-    void            SetGamePlayers(GamePlayer** players){ this->GamePlayers = players; }
+    void    SetGamePlayers(GamePlayer** players){ this->GamePlayers = players; }
     /**
     * @fn void SetNumberOfPlayers(int)
     * @brief Sets number of Players currently playing on the GameBoard
     * @param An int of the number of Players playing on the GameBoard
     */
-    void            SetNumberOfPlayers(int num){ this->NumberOfPlayers = num; }
+    void    SetNumberOfPlayers(int num){ this->NumberOfPlayers = num; }
     /**
     * @fn void SetGamePieces(GamePieces)
     * @brief Sets the GamePiece pointer array from the GameBoard
     * @param The GamePiece pointer array for GamePieces in play on the GameBoard
     */
-    void            SetGamePieces(GamePiece** pieces){ this->GamePieces = pieces; }
+    void    SetGamePieces(GamePiece** pieces){ this->GamePieces = pieces; }
     /**
     * @fn void SetNumberOfGamePieces(int)
     * @brief Sets the number of GamePieces in play on the board
     * @param An int of the number of GamePieces in play on the board
     */
-    void            SetNumberOfGamePieces(int num){ this->NumberOfGamePieces = num; }
+    void    SetNumberOfGamePieces(int num){ this->NumberOfGamePieces = num; }
     /**
     * @fn void SetGameState(GameState*)
     * @brief Sets the current GameState of the GameBoard (Useful for saved games)
     * @param A pointer to a GameState for the GameBoard
     */
-    void            SetGameState(GameState* state){ this->CurrentGameState = state; }
+    void    SetGameState(GameState* state){ this->CurrentGameState = state; }
     /**
     * @fn void SetGameController(GameController*)
     * @brief Sets the GameController for the GameBoard
     * @param A pointer to the GameController for the GameBoard
     */
-    void            SetGameController(GameController* controller){ this->CurrentGameController = controller; }
+    void    SetGameController(GameController* controller){ this->CurrentGameController = controller; }
   
     /* Pure Virtual Methods */
     /**
@@ -161,26 +207,26 @@ namespace GameFramework{
     *   GameState (method could setup a default setup if it has no GameState at
     *   time of call).
     */
-    virtual bool    Setup() = 0;
+    virtual bool    Setup()          { return true; }
     /**
     * @fn void BeginPlay()
     * @brief GameController calls this to tell the GameBoard to begin playing the
     *   game. Before this method returns, either the main game loop should be run
     *   or the method that runs the main game loop should be called.
     */
-    virtual bool    BeginPlay() = 0;
+    virtual bool    BeginPlay()      { return true; }
     /**
     * @fn void Finalize()
     * @brief Called by GameBoard after the main game loop ends to record the
     *   outcome of the game or round of the game
     */
-    virtual bool    Finalize() = 0;
+    virtual bool    Finalize()       { return true; }
     /**
     * @fn void ReportGameState()
     * @brief Called by GameBoard to notify the GameController about a significant
     *   change in the current GameState;
     */
-    virtual bool    ReportGameState() = 0;
+    virtual bool    ReportGameState(){ return true; }
   };
 }
 #endif // GAMEBOARD_HPP

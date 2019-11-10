@@ -35,8 +35,8 @@
  *   <li>LinkedIn.com/in/JohnLoeffler</li>
  * </ul>
  */
-#ifndef GAMESTATE_H
-#define GAMESTATE_H
+#ifndef GAMESTATE_HPP
+#define GAMESTATE_HPP
 
 #include "../Headers/pch.h"
 class GamePlayer;
@@ -50,38 +50,65 @@ class GamePlayer;
  */
 namespace GameFramework{
   class GameState{
-    const GamePlayer*   Winner;
-    int                 Score;
-    int*                SuperTestValue;
+  protected:
+    GamePlayer*   Winner;
+    int     Score;
+    int*    SuperTestValue;
   public:
-    /** @fn GameState() @brief Default Constructor */
-    GameState(){ Winner = nullptr; Score = -1; SuperTestValue = nullptr; }
-    /** @fn ~GameState() @brief Destructor */
-    virtual ~GameState(){ ++(*SuperTestValue); Winner = nullptr; SuperTestValue = nullptr; }
+    /** 
+    * @fn GameState() 
+    * @brief Default Constructor 
+    */
+    GameState(){ 
+      this->Winner = nullptr; 
+      this->Score = -1; 
+      this->SuperTestValue = nullptr; 
+    }
+    /** 
+    * @fn GameState(int*) 
+    * @brief Parameterized Constructor 
+    * @param An int pointer used to test the functionality of the class's destructor
+    */
+    GameState(int* value){ 
+      this->Winner = nullptr; 
+      this->Score  = -1; 
+      this->SuperTestValue = value; 
+    }
+    /** 
+    * @fn ~GameState() 
+    * @brief Destructor 
+    */
+    virtual ~GameState(){
+      if(this->SuperTestValue != nullptr){
+        ++(*this->SuperTestValue);
+      }
+      this->Winner = nullptr; 
+      this->SuperTestValue = nullptr; 
+    }
     /**
     * @fn void SetWinner(const Player*)
     * @brief Sets the winner of the game or round of the game
     * @param An const pointer to the Player who won the game
     */
-    void            SetWinner(const GamePlayer* player){ this->Winner = player; }
-    /**
-    * @fn const Player* GetWinner()
-     * @brief Gets the winner of the game or round of the game
-     * @return A const pointer to the Player who won the game
-    */
-    const GamePlayer*GetWinner(){ return this->Winner; }
+    void    SetWinner(GamePlayer* player){ this->Winner = player; }
     /**
     * @fn void SetScore(int)
     * @brief Sets the Winning Score or current high score
     * @param An int of the score
     */
-    void            SetScore(int score) { this->Score = score; }
+    void    SetScore(int score) { this->Score = score; }
     /**
-    * @fn int GetID()
+    * @fn GamePlayer* GetWinner()
+    * @brief Gets the winner of the game or round of the game
+    * @return A pointer to the Player who won the game
+    */
+    GamePlayer* GetWinner()    { return this->Winner; }
+    /**
+    * @fn int GetScore()
      * @brief Gets the Winning Score or current high score
      * @return An int of the score
     */
-    int             GetScore() { return this->Score; }
+    int     GetScore() { return this->Score; }
   };
 }
-#endif // GAMESTATE_H
+#endif // GAMESTATE_HPP

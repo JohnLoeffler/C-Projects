@@ -37,8 +37,8 @@
  */
 #ifndef GAMECONTROLLER_H
 #define GAMECONTROLLER_H
-#pragma once
 #include "../Headers/pch.h"
+#pragma once
 
 class GamePlayers;
 class GamePlayer;
@@ -58,7 +58,6 @@ class GameController;
  * 
  */
 namespace GameFramework{
-  using namespace GameFramework;
   class GameController{
   protected:
     GamePlayers*  CurrentPlayers;
@@ -67,18 +66,32 @@ namespace GameFramework{
     GameRuleSet*  Rules;
 
     int*          SuperTestValue;  // External reference variable for unit testing purposes
+    
+  public:
     /**
     * @fn GameController(int*)
     * @brief Parameterized constructor to allow for testing of destructor function on external reference variable
     * @param int* A pointer to an int variable that can be persistently changed by the class destructor
     */
-            GameController(int* value);
-  public:
+    GameController(int * value){
+      this->SuperTestValue  = value;
+      this->CurrentPlayers  = nullptr;
+      this->ControllerPieces= nullptr;
+      this->Board = nullptr;
+      this->Rules = nullptr;
+    }
+    
     /**
     * @fn GameController()
     * @brief Default constructor
     */
-            GameController();
+    GameController(){
+      this->SuperTestValue   = nullptr;
+      this->CurrentPlayers   = nullptr;
+      this->ControllerPieces = nullptr;
+      this->Board = nullptr;
+      this->Rules = nullptr;
+    }
     /**
     * @fn ~GameController()
     * @brief Virtual destructor

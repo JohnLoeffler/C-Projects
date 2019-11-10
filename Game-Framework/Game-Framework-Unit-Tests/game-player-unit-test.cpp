@@ -7,7 +7,7 @@ namespace GameFrameworkUnitTests {
   TEST_CLASS(GamePlayerUnitTest){
   public :
     
-    // Create Derived Tester Classes for Abstract 'Player' Class 
+    // Create Derived Tester Classes for Abstract 'GamePlayer' Class 
     class PlayerTestClass : public GameFramework::GamePlayer{
       
       /**
@@ -39,7 +39,6 @@ namespace GameFrameworkUnitTests {
           for(int i = 0; i < this->GetNumberOfGamePieces(); i++){
             GamePiece* temp = pieces[i];
             pieces[i] = nullptr;
-            delete temp;
           }
           delete [] pieces;
         }
@@ -50,24 +49,16 @@ namespace GameFrameworkUnitTests {
      * @brief The abstract method that is the base behavior for Player-derived objects
      */
       bool Perform(GameAction* value = nullptr){
-        if(value == nullptr){
-          return true;
-        }else{
-          return false;
+        if(value == nullptr){ 
+          return true; 
+        } else { 
+          return false; 
         }
       }
     };
 
-    class PlayersTestClass : public GameFramework::GamePlayers{
-      PlayersTestClass(int* value) : GamePlayers(value){ }
-      
-      PlayersTestClass() : GamePlayers(nullptr){ }
-
-      ~PlayersTestClass(){ if( this->SuperTestWrapperValue != nullptr ) ++(*this->SuperTestWrapperValue); }
-    };
-
     PlayerTestClass*           testPlayer;
-    PlayersTestClass*          testPlayers;
+    
 
     TEST_CLASS_INITIALIZE(Class_Setup){
 

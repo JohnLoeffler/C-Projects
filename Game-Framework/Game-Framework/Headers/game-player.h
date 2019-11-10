@@ -38,8 +38,8 @@
 */
 #ifndef GAMEPLAYER_HPP
 #define GAMEPLAYER_HPP
-
-#include "../Headers/pch.h"
+#include <vector>
+#pragma once
 
 class GamePiece;
 class GameAction;
@@ -54,32 +54,32 @@ class GameAction;
 * implementation to control the flow of the game.
 */
 namespace GameFramework{
-  using namespace GameFramework;
   class GamePlayer{
   
   protected:
     GamePiece**                GamePieces;
-    int                        PieceID, NumberOfGamePieces;
+    int                        PlayerID, NumberOfGamePieces;
     int*                       SuperTestValue;
+
+  public:
 
     /**
     * @fn GamePlayer(int*)
     * @brief Parameterized constructor that allows Unit testing of destructor functionality.
     * @param A pointer to an int representing the address of the external variable to be changed
     */
-                               GamePlayer(int* value);
-
-  public:
+    GamePlayer(int* value){ this->GamePieces = nullptr; this->PlayerID = INT_MIN; this->NumberOfGamePieces = INT_MIN; this->SuperTestValue = value; }
     /**
     * @fn GamePlayer()
     * @brief Default constructor
     */
-                               GamePlayer();
+    GamePlayer(){ this->GamePieces = nullptr; this->PlayerID = INT_MIN; this->NumberOfGamePieces = INT_MIN; this->SuperTestValue = nullptr; }
+
     /**
     * @fn ~GamePlayer()
     * @brief Destructor
     */
-    virtual                    ~GamePlayer();
+    virtual ~GamePlayer(){ if(this->SuperTestValue != nullptr) ++(*this->SuperTestValue); }
 
         /* Setters */
     /**
@@ -87,25 +87,25 @@ namespace GameFramework{
     * @brief Sets the GamePiece pointer array for the GamePlayers
     * @param An array of GamePiece pointers
     */
-    void                       SetGamePieces(GamePiece** pieces = nullptr){ this->GamePieces = pieces; }
+    void    SetGamePieces(GamePiece** pieces = nullptr){ this->GamePieces = pieces; }
     /**
     * @fn void SetID(int)
     * @brief Sets the ID of the GamePlayer
     * @param An int of the ID to assign to the GamePlayer
     */
-    void                       SetPieceID(int pieceID)            { this->PieceID = pieceID; }
+    void    SetPlayerID(int playerID)          { this->PlayerID = playerID; }
     /**
     * @fn void SetNumGamePieces(int)
     * @brief Sets the number of GamePieces in the GamePiece pointer array
     * @param An int of the number of pieces
     */
-    void                       SetNumberOfGamePieces(int number)  { this->NumberOfGamePieces = number; }
+    void    SetNumberOfGamePieces(int number)  { this->NumberOfGamePieces = number; }
     /**
     * @fn void SetSuperTestValue(int*)
     * @brief Prepares to external variable for the object to manipulate
     * @param An int of any integer
     */
-    void                       SetSuperTestValue(int* val)        {this->SuperTestValue = val;};
+    void    SetSuperTestValue(int* val)        {this->SuperTestValue = val;};
 
         /* Getters */
     /**
@@ -113,28 +113,32 @@ namespace GameFramework{
     * @brief Gets the GamePiece pointer array for the GamePlayers
     * @return An array of pointers to the GamePlayer's GamePieces
     */
-    GamePiece**                GetGamePieces()                    { return this->GamePieces; }
+    GamePiece** GetGamePieces()                { return this->GamePieces; }
     /**
     * @fn int GetID()
     * @brief Gets the ID of the GamePlayer
     * @return An int of the GamePlayer's ID
     */
-    int                        GetPieceID()                       { return this->PieceID; }
+    int     GetPlayerID()                      { return this->PlayerID; }
     /**
     * @fn int GetNumGamePieces()
     * @brief Gets the number of GamePieces in the GamePiece pointer array
     * @return An int of the number of pieces
     */
-    int                        GetNumberOfGamePieces()            { return this->NumberOfGamePieces; } 
-
-    int*                       GetSuperTestValue()                { return this->SuperTestValue; }
+    int     GetNumberOfGamePieces()            { return this->NumberOfGamePieces; } 
+    /**
+    * @fn int GetSuperTestValue()
+    * @brief Gets the Super class's Test value
+    * @return A pointer to the test value 
+    */
+    int*    GetSuperTestValue()                { return this->SuperTestValue; }
     /* Functional Methods */
     /**
     * @fn void Perform()
     * @brief Triggers a implementation specific Action or series of Action in the
     *   GamePlayer
     */
-    virtual bool               Perform(GameAction *action) = 0;
+    virtual bool Perform(GameAction *action)   { return true; }
   };
 
   /**
@@ -145,26 +149,26 @@ namespace GameFramework{
     std::vector<GamePlayer*>   VectorOfPlayers; // The vector for the wrapper class that hold pointers to the game's GamePlayers
     int*                       SuperTestWrapperValue;  // A pointer to an int value that was allocated outside the scope of this class.
 
+  public:
+    // Constructors And Destructors //
     /**
     * @fn GamePlayers(int*)
     * @brief Parameterized constructor to allow for testing of destructor function on external reference variable
     * @param int* A pointer to an int variable that can be persistently changed by the class destructor
     */
-                               GamePlayers(int* value);
+    GamePlayers(int* value)                    { this->SuperTestWrapperValue = value; }
 
-  public:
-    // Constructors And Destructors //
     /**
     * @fn GamePlayers()
     * @brief Default constructor for the wrapper class
     */
-                               GamePlayers() { this->SuperTestWrapperValue = nullptr; }
+    GamePlayers()                              { this->SuperTestWrapperValue = nullptr; }
 
     /**
 * @fn ~Players()
 * @brief Virtual destructor for the wrapper class
 */
-    virtual                    ~GamePlayers(){ if(this->SuperTestWrapperValue != nullptr) ++(*this->SuperTestWrapperValue); }
+    virtual ~GamePlayers()                     { if(this->SuperTestWrapperValue != nullptr) ++(*this->SuperTestWrapperValue); }
 
     /* Setters */
     /**
@@ -172,7 +176,7 @@ namespace GameFramework{
     * @brief Groups a vector of GamePlayers into a single encapsulated object
     * @return A vector of pointers to a group of GamePlayers
     */
-    inline void                SetGamePlayers(std::vector<GamePlayer*> players);
+    void    SetGamePlayers(std::vector<GamePlayer*> players){this->VectorOfPlayers = players;}
 
     /* Getters */
     /**
@@ -180,15 +184,15 @@ namespace GameFramework{
     * @brief Gets the encapsulated vector of the GamePlayers
     * @return A vector of pointers to a group of GamePlayers
     */
-    std::vector<GamePlayer*>   GetGamePlayers();
+    std::vector<GamePlayer*>   GetGamePlayers(){ return this->VectorOfPlayers; }
     /**
     * @fn unsigned GetNumberOfPlayers()
     * @brief Gets the number of Players in the vector
     * @return An unsigned int of the number of Players
     */
-    size_t                     GetNumberOfGamePlayers();
+    size_t  GetNumberOfGamePlayers()           { return this->VectorOfPlayers.size(); }
 
-    int*                       GetSuperTestWrapperValue()         { return this->SuperTestWrapperValue; }
+    int*    GetSuperTestWrapperValue()         { return this->SuperTestWrapperValue; }
     
     /* Functional Methods */
     /**
@@ -199,7 +203,19 @@ namespace GameFramework{
     * @param int The index of the Player in the Players vector
     * @return true, if the player was successfully removed, false otherwise
     */
-    bool                       RemoveGamePlayer(int);
+    bool    RemoveGamePlayer(int index){
+  // Validate parameters and object initialization //
+      if(index < 0 || (unsigned)index > this->VectorOfPlayers.size()){ return false; }
+      if(this->VectorOfPlayers.size() == 0){ return false; }
+
+      // Remove player from vector and validate deletion //
+      size_t temp = this->VectorOfPlayers.size();
+      this->VectorOfPlayers.erase(this->VectorOfPlayers.begin() + index);
+
+      // Report results //
+      return (this->VectorOfPlayers.size() == (temp - 1) ? true : false);
+    }
+
     /**
     * @fn T* RemovePlayer(T*, int)
     * @brief Removes the player at the given index, shifting
@@ -209,7 +225,21 @@ namespace GameFramework{
     * @param int The index of the Player in the Players vector
     * @return true, if the player was successfully removed, false otherwise
     */
-    bool                       RemoveGamePlayer(GamePlayer*, int);
+    bool    RemoveGamePlayer(GamePlayer* player, int index){
+      
+      // Validate parameters and object initialization //
+      if(player == nullptr){ return false; }
+      if(index < 0 || (unsigned)index > this->VectorOfPlayers.size()){ return false; }
+      if(this->VectorOfPlayers.size() == 0){ return false; }
+
+      // Pull player from vector and validate removal //
+      size_t temp = this->VectorOfPlayers.size();
+      player = this->VectorOfPlayers.at(index);
+      this->VectorOfPlayers.erase(this->VectorOfPlayers.begin() + index);
+
+      // Report results //
+      return (this->VectorOfPlayers.size() == (temp - 1) ? true : false);
+    }
     /**
     * @fn void RemovePlayer(const Player*)
     * @brief Alternative to indexing, removes param player from
@@ -217,14 +247,39 @@ namespace GameFramework{
     *   forward by one.
     * @return true, if the player was successfully removed, false otherwise
     */
-    bool                       RemoveGamePlayer(const GamePlayer*);
+    bool    RemoveGamePlayer(const GamePlayer* player){
+  // Validate parameters and object initialization //
+      if(player == nullptr){ return false; }
+      if(this->VectorOfPlayers.size() <= 0){ return false; }
+
+      // Locate any instance of player in vector and remove them //
+      bool flag = false;
+      for(unsigned i = 0; i < this->VectorOfPlayers.size(); i++){
+        if(this->VectorOfPlayers.at(i) == player){
+          this->VectorOfPlayers.erase(this->VectorOfPlayers.begin() + i);
+
+          // Player found and removed from group//
+          flag = true;
+        }
+      }
+
+      // Report results //
+      return flag;
+    }
     /**
     * @fn bool AddPlayer(Player*)
     * @brief Adds a player to the back of the vector
     * @return True if player was successfully added, false otherwise
     */ 
-    bool                       AddGamePlayer(GamePlayer*);
+    bool    AddGamePlayer(GamePlayer* player){
+      // Validate parameters and object initialization //
+      if(player == nullptr){ return false; }
 
+      // Add pointer to player to the vector, validate operation, and report result //
+      size_t temp = this->VectorOfPlayers.size();
+      this->VectorOfPlayers.emplace_back(player);
+      return (this->VectorOfPlayers.size() == (1 + temp) ? true : false);
+    }
   };
 }
-#endif // GAME_PLAYER_HPP
+#endif // GAMEPLAYER_HPP

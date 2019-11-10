@@ -1,8 +1,7 @@
-#ifndef PCH_H
-#define PCH_H
+#ifndef PCH_HPP
+#define PCH_HPP
 
 #pragma once
-
 
 /* Common Includes */
 #include "../../include/limits.h"
@@ -22,19 +21,6 @@
 #include "../Headers/game-state.h"
 #include "../Headers/game-rule-set.h"
 
-///* Class Declarations And Scoping To Namespace */
-//namespace GameFramework{
-//  class GamePlayer;
-//  class GamePiece;
-//  class GameState;
-//  class GameBoard;
-//  class GameController;
-//  class GameRuleSet;
-//  class GameAction;
-//  
-//  /*  Wrapper classes to make managing pieces and players easier  */
-//  class GamePieces;
-//  class GamePlayers;
-//}
 
-#endif //PCH_H
+
+#endif //PCH_HPP

@@ -35,16 +35,16 @@
  *   <li>LinkedIn.com/in/JohnLoeffler</li>
  * </ul>
  */
-#ifndef GAMERULESET_H
-#define GAMERULESET_H
+#ifndef GAMERULESET_HPP
+#define GAMERULESET_HPP
 
 #pragma once
 namespace GameFramework{
   class GameRuleSet{
 
   public:
-    GameRuleSet();
-    virtual ~GameRuleSet();
+    GameRuleSet(){}
+    virtual ~GameRuleSet(){}
   };
 }
-#endif  // GAMERULESET_H
+#endif  // GAMERULESET_HPP

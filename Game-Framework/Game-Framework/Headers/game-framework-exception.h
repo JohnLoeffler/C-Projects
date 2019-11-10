@@ -42,20 +42,51 @@
 #include "../Headers/pch.h"
 
 namespace GameFramework{
-  class GameFrameworkException :
-    public std::exception
-  {
+  class GameFrameworkException : public std::exception{
     const char* Message;
     const char* File;
     int         LineNumber;
 
     char* Formatted;
   public:
-    GameFrameworkException();
-    GameFrameworkException(const char* message);
-    GameFrameworkException(const char* message, const char* file = __FILE__, int lineNumber = __LINE__);
-    ~GameFrameworkException();
-    const char* what();
+    
+    
+    GameFrameworkException(){
+      this->Message = nullptr;
+      this->File = nullptr;
+      this->Formatted = nullptr;
+      this->LineNumber = INT_MIN;
+    }
+
+
+    GameFrameworkException(const char* message) {
+      this->Message = message;
+      this->File = nullptr;
+      this->LineNumber = INT_MIN;
+      this->Formatted = new char[2048];
+
+      sprintf_s(Formatted, 2048, "GameFrameworkException Thrown: %s", message);
+    }
+
+
+    GameFrameworkException(const char* message, const char* file, int lineNumber) {
+      this->Message = message;
+      this->File = file;
+      this->LineNumber = lineNumber;
+      this->Formatted = new char[2048];
+
+      sprintf_s(Formatted, 2048, "GameFrameworkException Thrown: |%s|[%d]: %s", File, LineNumber, Message);
+    }
+
+    ~GameFrameworkException(){
+      if(this->Message != nullptr){ delete Message; }
+      if(this->File != nullptr){ delete File; }
+      if(this->Formatted != nullptr){ delete Formatted; }
+    }
+
+    const char* what(){
+      return this->Formatted;
+    }
   };
 }
 #endif // GAMEFRAMEWORKEXCEPTION_HPP

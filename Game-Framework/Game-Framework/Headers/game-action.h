@@ -43,7 +43,8 @@
 namespace GameFramework{
   class GameAction{
   public:
-    virtual ~GameAction() = 0;
+    GameAction(){}
+    virtual ~GameAction(){}
   };
 }
 #endif  // GAMEACTION_HPP
