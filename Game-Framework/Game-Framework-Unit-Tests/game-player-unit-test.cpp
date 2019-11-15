@@ -9,13 +9,12 @@ namespace GameFrameworkUnitTests {
     
     // Create Derived Tester Classes for Abstract 'GamePlayer' Class 
     class PlayerTestClass : public GameFramework::GamePlayer{
-      
       /**
      * @fn PlayerTestClass(int*)
      * @brief Parameterized constructor to allow for testing of destructor function on external reference variable
      * @param int* A pointer to an int variable that can be persistently changed by the class destructor 
      */
-      PlayerTestClass(int* value) : GamePlayer(value){
+      PlayerTestClass(int& value) : GamePlayer(value){
         
       }
       /**
@@ -30,17 +29,15 @@ namespace GameFrameworkUnitTests {
       ~PlayerTestClass(){
         if(this->GetSuperTestValue() != nullptr){
           ++(*this->GetSuperTestValue());
-        }else{
-          this->SetSuperTestValue(new int(-1081));
         }
-        if(this->GetGamePieces() != nullptr){
-          GamePiece** pieces = this->GetGamePieces();
-          this->SetGamePieces(nullptr);
+
+        if(this->GetGamePieces().size()>0){
+          std::vector<GamePiece*> pieces;
           for(int i = 0; i < this->GetNumberOfGamePieces(); i++){
-            GamePiece* temp = pieces[i];
-            pieces[i] = nullptr;
+            GamePiece* temp = pieces.at(i);
+            pieces.emplace_back(temp);
+            delete temp;
           }
-          delete [] pieces;
         }
       }
       
@@ -48,7 +45,7 @@ namespace GameFrameworkUnitTests {
      * @fn bool Action(int*)
      * @brief The abstract method that is the base behavior for Player-derived objects
      */
-      bool Perform(GameAction* value = nullptr){
+      bool Perform(GameFramework::GameAction* value = nullptr){
         if(value == nullptr){ 
           return true; 
         } else { 
@@ -57,7 +54,7 @@ namespace GameFrameworkUnitTests {
       }
     };
 
-    PlayerTestClass*           testPlayer;
+    PlayerTestClass* testPlayer = nullptr;
     
 
     TEST_CLASS_INITIALIZE(Class_Setup){
@@ -69,26 +66,14 @@ namespace GameFrameworkUnitTests {
     }
 
     TEST_METHOD(Player_ctor){
-
+      int* value = new int(400);
+      
+      PlayerTestClass testPlayer(); 
+      testPlayer.SetSuperTestValue(value);
+      Assert::IsNotNull(testPlayer,"Player parameterized ctor working", __FILE__, __LINE__);
     }
 
     TEST_METHOD(Player_dtor){
-
-    }
-
-    TEST_METHOD(SetGamePieces){
-      
-    }
-
-    TEST_METHOD(SetID){
-
-    }
-
-    TEST_METHOD(SetNumberOfGamePieces){
-
-    }
-
-    TEST_METHOD(GetGamePieces){
 
     }
 

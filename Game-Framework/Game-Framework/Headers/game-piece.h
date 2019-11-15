@@ -39,6 +39,7 @@
 #ifndef GAMEPIECE_HPP
 #define GAMEPIECE_HPP
 #include "../Headers/pch.h"
+#include "../Headers/game-framework-exception.h"
 #pragma once
 
 /**
@@ -49,9 +50,12 @@
 */
 namespace GameFramework{
   class GamePiece{
+    /* @brief An int tracker to assign unique ID numbers to newly created pieces */
+    static int   NextID;
+
   protected:
     int*         SuperTestValue;
-    int          Value, PieceID, NextID = 0;
+    int          Value, PieceID;
 
   public:
     /**
@@ -60,6 +64,7 @@ namespace GameFramework{
     * @param int Pointer to an external variable which will record changes made by destructor
     */
     GamePiece(int* value){
+      Init();
       this->Value = *value;
       IncrementID();
       this->PieceID = this->NextID;
@@ -70,7 +75,8 @@ namespace GameFramework{
     * @brief Default Constructor
     */
     GamePiece(){ 
-      IncrementID();
+      Init();
+      GamePiece::IncrementID();
       this->PieceID = this->NextID;
       this->Value = 1; 
       this->SuperTestValue = nullptr; 
@@ -79,7 +85,7 @@ namespace GameFramework{
     * @fn ~GamePiece() 
     * @brief Destructor  
     */
-    virtual ~GamePiece(){ ++(*this->SuperTestValue); }
+    virtual ~GamePiece()       { ++(*this->SuperTestValue); }
 
     // Getters //
     /**
@@ -94,6 +100,8 @@ namespace GameFramework{
     * @return An int of the GamePiece's ID number
     */
     int     GetPieceID()       { return this->PieceID; }
+
+
 
     // Setters //
     /**
@@ -116,11 +124,23 @@ namespace GameFramework{
     * @brief      Compares this piece to another GamePiece
     * @param      A const pointer to a GamePiece
     * @return     An int representing the result of the comparison
-    * @exception  Exception should be thrown if incompatible GamePiece is passed
+    * @exception  GameFrameworkException should be thrown if incompatible GamePiece is passed
     */
-    int     Compare(GamePiece* rhs) { return(this->GetValue() - rhs->GetValue()); }
+    int     Compare(GamePiece* rhs) throw(GameFrameworkException) {
+      if( typeid(this) == typeid(rhs)){
+        return(this->GetValue() - rhs->GetValue());
+      } else{
+        throw GameFrameworkException("GameFrameworkException thrown when attempting to compare incompatible GamePiece classes!", __FILE__, __LINE__);
+      }
+    }
 
-    void    IncrementID(){ ++NextID;}
+    /** @fn IncrementID() @brief Increments to the next usable GamePieceID for assignment */
+    void    IncrementID(){++NextID;}
+  
+    int*    GetSuperTestValue(){return this->SuperTestValue;}
+    private:
+    void    Init(){GamePiece::NextID = 0;}
+    static  int GetNextID() { return NextID; }
   };
 }
 
@@ -164,7 +184,7 @@ namespace GameFramework{
     * @brief Gets the vector of GamePieces from the container.
     * @return A vector of GamePiece pointers
     */
-    std::vector<GamePiece*> GetGamePieces(){ return this->Pieces;  }
+    std::vector<GamePiece*>    GetGamePieces(){ return this->Pieces;  }
     /**
     * @fn GetNumberOfGamePieces()
     * @brief Gets the number of GamePieces in the container

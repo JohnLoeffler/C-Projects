@@ -9,6 +9,7 @@
 #include <exception>
 #include <stdio.h>
 #include <sstream>
+#include <typeinfo>
 
 /* Class Header includes */
 #include "../Headers/game-player.h"
@@ -19,8 +20,22 @@
 #include "../Headers/game-board.h"
 #include "../Headers/game-controller.h"
 #include "../Headers/game-state.h"
+#include "../Headers/game-rules.h"
 #include "../Headers/game-rule-set.h"
 
+using namespace GameFramework;
+namespace GFWK = GameFramework;
 
+class GamePlayer;
+class GamePlayers;
+class GamePiece;
+class GamePieces;
+class GameFrameworkException;
+class GameAction;
+class GameBoard;
+class GameController;
+class GameState;
+class GameRules;
+class GameRuleSet;
 
 #endif //PCH_HPP

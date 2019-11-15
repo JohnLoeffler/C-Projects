@@ -55,25 +55,15 @@ class GameAction;
 */
 namespace GameFramework{
   class GamePlayer{
+  /* @brief An int tracker to assign unique ID numbers to newly created GamePlayers */
+    static int NextID;
   
   protected:
-    GamePiece**                GamePieces;
+    std::vector<GamePiece*>    GamePiecesHeld;
     int                        PlayerID, NumberOfGamePieces;
     int*                       SuperTestValue;
 
   public:
-
-    /**
-    * @fn GamePlayer(int*)
-    * @brief Parameterized constructor that allows Unit testing of destructor functionality.
-    * @param A pointer to an int representing the address of the external variable to be changed
-    */
-    GamePlayer(int* value){ this->GamePieces = nullptr; this->PlayerID = INT_MIN; this->NumberOfGamePieces = INT_MIN; this->SuperTestValue = value; }
-    /**
-    * @fn GamePlayer()
-    * @brief Default constructor
-    */
-    GamePlayer(){ this->GamePieces = nullptr; this->PlayerID = INT_MIN; this->NumberOfGamePieces = INT_MIN; this->SuperTestValue = nullptr; }
 
     /**
     * @fn ~GamePlayer()
@@ -87,7 +77,7 @@ namespace GameFramework{
     * @brief Sets the GamePiece pointer array for the GamePlayers
     * @param An array of GamePiece pointers
     */
-    void    SetGamePieces(GamePiece** pieces = nullptr){ this->GamePieces = pieces; }
+    void    SetGamePieces(std::vector<GamePiece*> pieces){ this->GamePiecesHeld = pieces; this->SetNumberOfGamePieces(this->GetGamePieces().size());}
     /**
     * @fn void SetID(int)
     * @brief Sets the ID of the GamePlayer
@@ -105,7 +95,7 @@ namespace GameFramework{
     * @brief Prepares to external variable for the object to manipulate
     * @param An int of any integer
     */
-    void    SetSuperTestValue(int* val)        {this->SuperTestValue = val;};
+    void    SetSuperTestValue(int* val)        { this->SuperTestValue = val;};
 
         /* Getters */
     /**
@@ -113,7 +103,7 @@ namespace GameFramework{
     * @brief Gets the GamePiece pointer array for the GamePlayers
     * @return An array of pointers to the GamePlayer's GamePieces
     */
-    GamePiece** GetGamePieces()                { return this->GamePieces; }
+    std::vector<GamePiece*>    GetGamePieces() { return this->GamePiecesHeld; }
     /**
     * @fn int GetID()
     * @brief Gets the ID of the GamePlayer
@@ -125,7 +115,7 @@ namespace GameFramework{
     * @brief Gets the number of GamePieces in the GamePiece pointer array
     * @return An int of the number of pieces
     */
-    int     GetNumberOfGamePieces()            { return this->NumberOfGamePieces; } 
+    int     GetNumberOfGamePieces()            { return this->NumberOfGamePieces; }  
     /**
     * @fn int GetSuperTestValue()
     * @brief Gets the Super class's Test value
@@ -139,6 +129,10 @@ namespace GameFramework{
     *   GamePlayer
     */
     virtual bool Perform(GameAction *action)   { return true; }
+
+  private:
+    void    Init()      { GamePlayer::NextID = 1; }
+    int     GetNextID() { return NextID; }
   };
 
   /**
@@ -156,19 +150,19 @@ namespace GameFramework{
     * @brief Parameterized constructor to allow for testing of destructor function on external reference variable
     * @param int* A pointer to an int variable that can be persistently changed by the class destructor
     */
-    GamePlayers(int* value)                    { this->SuperTestWrapperValue = value; }
+    GamePlayers(int* value)    { this->SuperTestWrapperValue = value; }
 
     /**
     * @fn GamePlayers()
     * @brief Default constructor for the wrapper class
     */
-    GamePlayers()                              { this->SuperTestWrapperValue = nullptr; }
+    GamePlayers()              { this->SuperTestWrapperValue = nullptr; }
 
     /**
 * @fn ~Players()
 * @brief Virtual destructor for the wrapper class
 */
-    virtual ~GamePlayers()                     { if(this->SuperTestWrapperValue != nullptr) ++(*this->SuperTestWrapperValue); }
+    virtual ~GamePlayers()     { if(this->SuperTestWrapperValue != nullptr) ++(*this->SuperTestWrapperValue); }
 
     /* Setters */
     /**
