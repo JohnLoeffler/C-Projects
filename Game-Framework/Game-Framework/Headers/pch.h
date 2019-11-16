@@ -8,13 +8,14 @@
 #include <vector>
 #include <exception>
 #include <stdio.h>
-#include <sstream>
 #include <typeinfo>
 
 /* Class Header includes */
 #include "../Headers/game-player.h"
+#include "../Headers/game-players.h"
 #include "../Headers/game-action.h"
 #include "../Headers/game-piece.h"
+#include "../Headers/game-pieces.h"
 #include "../Headers/game-framework.h"
 #include "../Headers/game-framework-exception.h"
 #include "../Headers/game-board.h"

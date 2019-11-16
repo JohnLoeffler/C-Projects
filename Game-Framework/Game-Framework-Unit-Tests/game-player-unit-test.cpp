@@ -1,46 +1,60 @@
 #include "CppUnitTest.h"
 #include "../Game-Framework/Headers/pch.h"
+#include <string>
 #include "stdafx.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace GameFrameworkUnitTests {
+  using namespace std::string_literals;
   TEST_CLASS(GamePlayerUnitTest){
   public :
     
     // Create Derived Tester Classes for Abstract 'GamePlayer' Class 
     class PlayerTestClass : public GameFramework::GamePlayer{
-      /**
+    public:
+      int playerID, numberOfGamePieces;
+      std::vector<GameFramework::GamePiece*> pieces;
+
+     /**
      * @fn PlayerTestClass(int*)
      * @brief Parameterized constructor to allow for testing of destructor function on external reference variable
      * @param int* A pointer to an int variable that can be persistently changed by the class destructor 
      */
-      PlayerTestClass(int& value) : GamePlayer(value){
-        
-      }
+      PlayerTestClass(int& value) : GameFramework::GamePlayer(value){ InheritValues(); }
       /**
      * @fn PlayerTestClass()
      * @brief Default constructor
      */
-      PlayerTestClass() : GamePlayer() { }
+      PlayerTestClass() : GameFramework::GamePlayer() { InheritValues(); }
       /**
      * @fn ~Players()
      * @brief Destructor
      */
       ~PlayerTestClass(){
-        if(this->GetSuperTestValue() != nullptr){
-          ++(*this->GetSuperTestValue());
-        }
-
         if(this->GetGamePieces().size()>0){
-          std::vector<GamePiece*> pieces;
+          std::vector<GameFramework::GamePiece*> pieces;
           for(int i = 0; i < this->GetNumberOfGamePieces(); i++){
-            GamePiece* temp = pieces.at(i);
+            GameFramework::GamePiece* temp = pieces.at(i);
             pieces.emplace_back(temp);
             delete temp;
           }
         }
+        if(this->GetSuperTestValue() != -1){
+          ++this->GetSuperTestValue();
+        }
+      }
+
+      void InheritValues(){
+        playerID = this->PlayerID;
+        numberOfGamePieces = this->GamePiecesHeld.size();
+        pieces = this->GamePiecesHeld;
       }
       
+      void EvolveValues(){
+        this->PlayerID = playerID;
+        this->GamePiecesHeld = pieces;
+      }
+
       /**
      * @fn bool Action(int*)
      * @brief The abstract method that is the base behavior for Player-derived objects
@@ -55,113 +69,117 @@ namespace GameFrameworkUnitTests {
     };
 
     PlayerTestClass* testPlayer = nullptr;
-    
 
     TEST_CLASS_INITIALIZE(Class_Setup){
-
+      
     }
 
     TEST_METHOD_INITIALIZE(Method_Setup){
+      testPlayer = nullptr;
+    }
+
+    TEST_METHOD_CLEANUP(Method_Cleanup){
       
     }
 
-    TEST_METHOD(Player_ctor){
-      int* value = new int(400);
+    TEST_METHOD(PlayerParameterizedConstructor){
+      int value = 0;
       
-      PlayerTestClass testPlayer(); 
-      testPlayer.SetSuperTestValue(value);
-      Assert::IsNotNull(testPlayer,"Player parameterized ctor working", __FILE__, __LINE__);
+      testPlayer = new PlayerTestClass(value);
+      const wchar_t* msg = L"testPlayer is null!";
+      Assert::IsNotNull(testPlayer, msg);
     }
 
-    TEST_METHOD(Player_dtor){
-
+    TEST_METHOD(PlayerDefaultConstructor){
+      testPlayer = new PlayerTestClass();
+      const wchar_t* msg = L"testPlayer is null!";
+      Assert::IsNotNull(testPlayer, msg);
     }
 
-    TEST_METHOD(GetID){
-
+    TEST_METHOD(PlayerDeconstructor){
+      int value  = 0;
+      testPlayer = new PlayerTestClass(value);
+      Assert::IsTrue(0 == value, L"PlayerDestructor not working!");
     }
 
-    TEST_METHOD(GetNumberOfGamePieces){
+    TEST_METHOD(PlayerSetGamePieces){
+      std::vector<GameFramework::GamePiece*> gamePieces;
+      GameFramework::GamePiece* piece = new GameFramework::GamePiece();
+      gamePieces.emplace_back(piece);
+      testPlayer = new PlayerTestClass();
+      testPlayer->SetGamePieces(gamePieces);
+      testPlayer->InheritValues();
 
+      wchar_t msg[64];
+      swprintf_s(msg, L"SetGamePieces Not Working: size of vector = %d", (int) testPlayer->pieces.size());
+
+      Assert::IsTrue(1 == testPlayer->pieces.size(), msg);
     }
 
-  };
+    TEST_METHOD(PlayerSetPlayerID){
+      testPlayer = new PlayerTestClass();
+      testPlayer->SetPlayerID(1);
+      testPlayer->InheritValues();
+      wchar_t msg[64];
+      swprintf_s(msg, L"SetPlayerID Not Working: ID value set as %d", testPlayer->playerID);
 
-  TEST_CLASS(GamePlayers){
-  public :
-
-    TEST_METHOD(GamePlayers_ctor){
-
+      Assert::IsTrue(1 == testPlayer->playerID, msg);
     }
 
-    TEST_METHOD(GamePlayers_dtor){
+    TEST_METHOD(PlayerGetGamePieces){
+      std::vector<GameFramework::GamePiece*> gamePieces;
+      for(int i = 0; i < 10; i++){
+        GameFramework::GamePiece* piece = new GameFramework::GamePiece();
+        gamePieces.emplace_back(piece);
+      }
+      
+      testPlayer = new PlayerTestClass();
+      testPlayer->pieces = gamePieces;
+      testPlayer->EvolveValues();
+      
+      wchar_t msg[64];
+      swprintf_s(msg, L"GetGamePieces Not Working!");
 
+      Assert::IsTrue(10 == testPlayer->GetGamePieces().size(), msg);
     }
 
-    TEST_METHOD(GamePlayers_GetPlayers){
+    TEST_METHOD(PlayerGetNumberOfGamePieces){
+      std::vector<GameFramework::GamePiece*> gamePieces;
+      for(int i = 0; i < 10; i++){
+        GameFramework::GamePiece* piece = new GameFramework::GamePiece();
+        gamePieces.emplace_back(piece);
+      }
 
+      testPlayer = new PlayerTestClass();
+      testPlayer->pieces = gamePieces;
+      testPlayer->EvolveValues();
+
+      wchar_t msg[64];
+      swprintf_s(msg, L"GetNumberOfGamePieces Not Working: size of vector is: %d", testPlayer->GetNumberOfGamePieces());
+
+      Assert::IsTrue(10 == testPlayer->GetNumberOfGamePieces(), msg);
     }
 
-    TEST_METHOD(GamePlayers_GetNumberOfPlayers){
-
+    TEST_METHOD(PlayerGetSuperTestValue){
+      int value  = 1;
+      testPlayer = new PlayerTestClass(value);
+      
+      wchar_t msg[64];
+      swprintf_s(msg, L"GetSuperTestValue Not Working: Value is %d", (testPlayer->GetSuperTestValue()));
+      
+      Assert::IsTrue(value == testPlayer->GetSuperTestValue(), msg);
     }
 
-    TEST_METHOD(GamePlayers_RemovePlayerAtIndex){
+    TEST_METHOD(PlayerGetPlayerID){
+      testPlayer = new PlayerTestClass();
+      testPlayer->SetPlayerID(1);
+      testPlayer->InheritValues();
 
+      wchar_t msg[64];
+      swprintf_s(msg, L"SetPlayerID Not Working: Expected value = 1 | Actual Value = %d", testPlayer->playerID);
+
+      Assert::IsTrue(1 == testPlayer->GetPlayerID(), msg);
     }
-
-    TEST_METHOD(GamePlayers_RemovePlayerAtAddress){
-
-    }
-
-    TEST_METHOD(GamePlayers_AddPlayer){
-
-    }
-  };
-
-  TEST_CLASS(GamePiece){
-    public:
-
-  };
-
-  TEST_CLASS(GamePieces){
-  public:
-
-  };
-
-  TEST_CLASS(GameAction){
-  public:
-
-  };
-
-  TEST_CLASS(GameBoard){
-  public:
-
-  };
-
-  TEST_CLASS(GameController){
-  public:
-
-  };
-
-  TEST_CLASS(GameRuleSet){
-  public:
-
-  };
-
-  TEST_CLASS(GameState){
-  public:
-
-  };
-
-  TEST_CLASS(GameFrameworkException){
-  public:
-
-  };
-
-  TEST_CLASS(GameRules){
-  public:
-
   };
 }
 

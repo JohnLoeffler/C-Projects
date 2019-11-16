@@ -51,8 +51,7 @@
 namespace GameFramework{
   class GamePiece{
     /* @brief An int tracker to assign unique ID numbers to newly created pieces */
-    static int   NextID;
-
+  
   protected:
     int*         SuperTestValue;
     int          Value, PieceID;
@@ -65,9 +64,6 @@ namespace GameFramework{
     */
     GamePiece(int* value){
       Init();
-      this->Value = *value;
-      IncrementID();
-      this->PieceID = this->NextID;
       this->SuperTestValue = value;
     }
     /** 
@@ -76,16 +72,12 @@ namespace GameFramework{
     */
     GamePiece(){ 
       Init();
-      GamePiece::IncrementID();
-      this->PieceID = this->NextID;
-      this->Value = 1; 
-      this->SuperTestValue = nullptr; 
     }
     /** 
     * @fn ~GamePiece() 
     * @brief Destructor  
     */
-    virtual ~GamePiece()       { ++(*this->SuperTestValue); }
+    virtual ~GamePiece()       { ++(*this->SuperTestValue); this->SuperTestValue = nullptr;}
 
     // Getters //
     /**
@@ -110,13 +102,7 @@ namespace GameFramework{
     * @param An int representing the value to assign to the GamePiece
     */
     void    SetValue(int value){ this->Value = value; }
-    /**
-    * @fn void SetID(int)
-    * @brief Sets the ID of the GamePiece
-    * @param An int representing the ID to assign to the GamePiece
-    */
-    void    SetPieceID(int id) { this->PieceID = id; }
-
+    
 
     // Functional Methods //
     /**
@@ -126,7 +112,7 @@ namespace GameFramework{
     * @return     An int representing the result of the comparison
     * @exception  GameFrameworkException should be thrown if incompatible GamePiece is passed
     */
-    int     Compare(GamePiece* rhs) throw(GameFrameworkException) {
+    int     Compare(GamePiece* rhs) throw(...) {
       if( typeid(this) == typeid(rhs)){
         return(this->GetValue() - rhs->GetValue());
       } else{
@@ -134,144 +120,14 @@ namespace GameFramework{
       }
     }
 
-    /** @fn IncrementID() @brief Increments to the next usable GamePieceID for assignment */
-    void    IncrementID(){++NextID;}
-  
+        /** 
+    * @fn GetSuperTestValue() 
+    * @brief Gets the Test pointer 
+    */
     int*    GetSuperTestValue(){return this->SuperTestValue;}
+
     private:
-    void    Init(){GamePiece::NextID = 0;}
-    static  int GetNextID() { return NextID; }
-  };
-}
-
-/**
-* @brief A wrapper class for a collections of GamePieces to make grouping and managing them easier
-*/
-namespace GameFramework{
-  class GamePieces{
-  protected:
-    /* Data Members */
-    int*    SuperTestWrapperValue;
-    std::vector<GamePiece*> Pieces;
-    
-  public:
-    /******************************
-    * Constructors and Destructor *
-    ******************************/
-
-    /**
-    * @fn GamePieces(int*)
-    * @brief Parameterized Constructor
-    */
-    GamePieces(int* value)     { this->SuperTestWrapperValue = value; }
-    /**
-    * @fn GamePieces()
-    * @brief Default Constructor
-    */
-    GamePieces()               { this->SuperTestWrapperValue = nullptr; }
-    /**
-    * @fn ~GamePieces()
-    * @brief Destructor
-    */
-    virtual   ~GamePieces()    { ++(*this->SuperTestWrapperValue); }
-
-    /*********************
-    *      Getters      *
-    *********************/
-
-    /**
-    * @fn GetGamePieces()
-    * @brief Gets the vector of GamePieces from the container.
-    * @return A vector of GamePiece pointers
-    */
-    std::vector<GamePiece*>    GetGamePieces(){ return this->Pieces;  }
-    /**
-    * @fn GetNumberOfGamePieces()
-    * @brief Gets the number of GamePieces in the container
-    * @return A size_t of the size of the containers vector of GamePiece pointers
-    */
-    size_t GetNumberOfGamePieces()         { return this->Pieces.size(); }
-
-    /*********************
-    * Functional Methods *
-    *********************/
-    
-    /**
-    * @fn AddGamePiece(GamePiece*)
-    * @brief Adds a GamePiece pointer to the container
-    * @param A pointer to the game piece to add to the container
-    * @return True if the addition to the vector was successful, false otherwise
-    */
-    bool AddGamePiece(GamePiece* piece){
-      // Validate parameter and object initialization //
-      if(piece == nullptr){ return false; }
-
-      // Add piece, verify operation, and report results //
-      size_t temp = this->Pieces.size();
-      Pieces.emplace_back(piece);
-      return (this->Pieces.size() == (temp + 1) ? true : false);
-    }
-    
-    /**
-    * @fn RemoveGamePiece(GamePiece*, int)
-    * @brief Adds a GamePiece pointer to the container
-    * @param A GamePiece pointer that returns the GamePiece pointer to the calling function rather than destroying it
-    * @param An int for the GamePiece's index in the containers vector
-    * @return True if the removal of the GamePiece was successful, false otherwise
-    */
-    bool RemoveGamePiece(GamePiece* piece, int index){
-      // Validate parameters and object instantiation //
-      if(index < 0 || (unsigned)index >= this->Pieces.size()){ return false; }
-
-      // Assign pointer from vector to external reference variable //
-      piece = this->Pieces.at(index);
-
-      // Remove piece at Index, verify operation, and report results //
-      size_t temp = this->Pieces.size();
-      this->Pieces.erase(this->Pieces.begin() + index);
-      return (this->Pieces.size() == (temp - 1) ? true : false);
-    }
-    
-    /**
-    * @fn RemoveGamePiece(int)
-    * @brief removes a GamePiece pointer from the container based on its index in the underlying vector
-    * @param An int for the index of the GamePiece to remove
-    * @return True if the removal of the GamePiece was successful, false otherwise
-    */
-    bool RemoveGamePiece(int index){
-      // Validate parameter and object initialization //
-      if(index < 0 || (unsigned)index >= this->Pieces.size()){ return false; }
-      if(this->Pieces.size() == 0){ return false; }
-
-      // Remove piece at Index, verify operation, and report results //
-      size_t temp = this->Pieces.size();
-      this->Pieces.erase(this->Pieces.begin() + index);
-      return (this->Pieces.size() == (temp - 1) ? true : false);
-    }
-
-    /**
-    * @fn RemoveGamePiece(const GamePiece*)
-    * @brief Removes any instance of a GamePiece pointer from the container
-    * @param A const GamePiece pointer to remove from the container
-    * @return True if the GamePiece was found and all instances removed from the containers vector
-    */
-    bool RemoveGamePiece(const GamePiece* piece){
-      // Validate parameter and object initialization //
-      if(piece == nullptr){ return false; }
-      if(this->Pieces.size() == 0){ return false; }
-
-      // Search for piece in vector, remove all instances of it, verify operations, and report results //
-      unsigned count = 0;
-      unsigned temp = this->Pieces.size();
-      for(unsigned i = 0; i < this->Pieces.size(); i++){
-        if(this->Pieces.at(i) == piece){
-          count++;
-          this->Pieces.erase(this->Pieces.begin() + i);
-          i--;
-        }
-      }
-      return (this->Pieces.size() == (temp - count) ? true : false);
-    }
+    void    Init(){ this->PieceID = INT_MIN; this->SuperTestValue = nullptr; this->Value = INT_MIN;}
   };
 }
 #endif // GAMEPIECE_HPP
