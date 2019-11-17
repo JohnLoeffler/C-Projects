@@ -21,7 +21,7 @@
 #include "../Headers/game-board.h"
 #include "../Headers/game-controller.h"
 #include "../Headers/game-state.h"
-#include "../Headers/game-rules.h"
+#include "../Headers/game-rule.h"
 #include "../Headers/game-rule-set.h"
 
 using namespace GameFramework;

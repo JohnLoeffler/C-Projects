@@ -61,24 +61,21 @@ namespace GameFramework{
   class GameController{
   protected:
     GamePlayers*  CurrentPlayers;
-    GamePieces*   ControllerPieces;
-    GameBoard*    Board;
-    GameRuleSet*  Rules;
+    GamePieces*   CurrentPieces;
+    GameBoard*    CurrentBoard;
+    GameRuleSet*  CurrentRuleSet;
 
-    int*          SuperTestValue;  // External reference variable for unit testing purposes
-    
   public:
     /**
     * @fn GameController(int*)
     * @brief Parameterized constructor to allow for testing of destructor function on external reference variable
     * @param int* A pointer to an int variable that can be persistently changed by the class destructor
     */
-    GameController(int * value){
-      this->SuperTestValue  = value;
-      this->CurrentPlayers  = nullptr;
-      this->ControllerPieces= nullptr;
-      this->Board = nullptr;
-      this->Rules = nullptr;
+    GameController(GamePlayers* players, GamePieces* pieces, GameBoard* board, GameRuleSet* ruleSet){
+      this->CurrentPlayers   = players;
+      this->CurrentPieces    = pieces;
+      this->CurrentBoard     = board;
+      this->CurrentRuleSet   = ruleSet;
     }
     
     /**
@@ -86,17 +83,18 @@ namespace GameFramework{
     * @brief Default constructor
     */
     GameController(){
-      this->SuperTestValue   = nullptr;
       this->CurrentPlayers   = nullptr;
-      this->ControllerPieces = nullptr;
-      this->Board = nullptr;
-      this->Rules = nullptr;
+      this->CurrentPieces    = nullptr;
+      this->CurrentBoard     = nullptr;
+      this->CurrentRuleSet   = nullptr;
     }
     /**
     * @fn ~GameController()
     * @brief Virtual destructor
     */
     virtual ~GameController(){}
+
+
   };
 }
 #endif  //  GAMECONTROLLER_H
