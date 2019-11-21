@@ -1,0 +1,10 @@
+#ifndef GAMELOOPSTATE_HPP
+#define GAMELOOPSTATE_HPP
+#pragma once
+
+namespace GameFramework{
+  enum GameLoopState{UNINITIALIZED, LOADING, SHOWINGMENU, PAUSED, PLAYING, EXITING};
+}
+
+#endif GAMELOOPSTATE_HPP
+
