@@ -7,10 +7,10 @@ namespace GameFramework{
   class GameFileManager{
     std::vector<T>   FileVector;
   public:
-    GameFileManager()  {}
-    ~GameFileManager() {}
-    int  LoadFile()    { return 0; }
-    bool ReleaseFile() { return false; }
+    GameFileManager()          {}
+    virtual ~GameFileManager() {}
+    virtual int  LoadFile()    { return 0; }
+    virtual bool ReleaseFile() { return false; }
   };
 }
 #endif // GAMEFILEMANAGER_H
