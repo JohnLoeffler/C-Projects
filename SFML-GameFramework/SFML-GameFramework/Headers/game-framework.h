@@ -17,6 +17,7 @@ namespace GameFramework{
     sf::Clock          OuterGameClock;
     GameLoopState      CurrentState, NextDesiredState;
     GameState*         ActiveState;
+    GameAssetManager*  AssetManager;
 
 
   public:
@@ -47,7 +48,7 @@ namespace GameFramework{
     * @fn Play()
     * @brief Begins playing the game 
     */
-    virtual bool Play() = 0;
+    virtual int Play() = 0;
     ///**
     //* @fn Load()
     //* @brief Loads a previously saved GameState
@@ -63,6 +64,13 @@ namespace GameFramework{
     * @brief Exits the current game
     */
     virtual bool Exit() = 0;
+
+    /**
+    * @fn LoadAssets(const char*)
+    * @brief Loads the assets used for the game
+    * @param the path to the manifest holding the asset filenames to be loaded
+    */
+    virtual int LoadAssets(const char*) = 0;
   };
 }
 

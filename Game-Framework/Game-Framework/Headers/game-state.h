@@ -51,9 +51,8 @@ class GamePlayer;
 namespace GameFramework{
   class GameState{
   protected:
-    GamePlayer*   Winner;
-    int     Score;
-    int*    SuperTestValue;
+    GamePlayer*      Winner;
+    int              Score;
   public:
     /** 
     * @fn GameState() 
@@ -62,7 +61,6 @@ namespace GameFramework{
     GameState(){ 
       this->Winner = nullptr; 
       this->Score = -1; 
-      this->SuperTestValue = nullptr; 
     }
     /** 
     * @fn GameState(int*) 
@@ -72,43 +70,38 @@ namespace GameFramework{
     GameState(int* value){ 
       this->Winner = nullptr; 
       this->Score  = -1; 
-      this->SuperTestValue = value; 
     }
     /** 
     * @fn ~GameState() 
     * @brief Destructor 
     */
-    virtual ~GameState(){
-      if(this->SuperTestValue != nullptr){
-        ++(*this->SuperTestValue);
-      }
+    virtual          ~GameState(){
       this->Winner = nullptr; 
-      this->SuperTestValue = nullptr; 
     }
     /**
     * @fn void SetWinner(const Player*)
     * @brief Sets the winner of the game or round of the game
     * @param An const pointer to the Player who won the game
     */
-    void    SetWinner(GamePlayer* player){ this->Winner = player; }
+    void             SetWinner(GamePlayer* player){ this->Winner = player; }
     /**
     * @fn void SetScore(int)
     * @brief Sets the Winning Score or current high score
     * @param An int of the score
     */
-    void    SetScore(int score) { this->Score = score; }
+    void             SetScore(int score) { this->Score = score; }
     /**
     * @fn GamePlayer* GetWinner()
     * @brief Gets the winner of the game or round of the game
     * @return A pointer to the Player who won the game
     */
-    GamePlayer* GetWinner()    { return this->Winner; }
+    GamePlayer*      GetWinner()    { return this->Winner; }
     /**
     * @fn int GetScore()
      * @brief Gets the Winning Score or current high score
      * @return An int of the score
     */
-    int     GetScore() { return this->Score; }
+    int              GetScore() { return this->Score; }
   };
 }
 #endif // GAMESTATE_HPP

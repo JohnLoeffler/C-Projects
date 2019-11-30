@@ -85,7 +85,7 @@ namespace GameFramework{
     * @brief Sets the GamePiece pointer array for the GamePlayers
     * @param An array of GamePiece pointers
     */
-    void    SetGamePieces(std::vector<GameFramework::GamePiece*> pieces){ this->GamePiecesHeld = pieces; }
+    void    SetGamePieces(std::vector<GamePiece*> pieces){ this->GamePiecesHeld = pieces; }
     /**
     * @fn GetPlayerID(int)
     * @brief Sets the ID of the GamePlayer
@@ -99,7 +99,7 @@ namespace GameFramework{
     * @brief Gets the GamePiece pointer array for the GamePlayers
     * @return An array of pointers to the GamePlayer's GamePieces
     */
-    std::vector<GameFramework::GamePiece*> GetGamePieces(){ return this->GamePiecesHeld; }
+    std::vector<GamePiece*> GetGamePieces(){ return this->GamePiecesHeld; }
     /**
     * @fn int GetPlayerID()
     * @brief Gets the ID of the GamePlayer
@@ -125,7 +125,7 @@ namespace GameFramework{
     * @brief Triggers a implementation specific Action or series of Action in the
     *   GamePlayer
     */
-    virtual bool Perform(GameFramework::GameAction *act)  { return true; }
+    virtual bool Perform(GameAction *act)  { return true; }
 
   private:
     void    Init()                         { this->PlayerID = -1; this->SuperTestValue = -1;}

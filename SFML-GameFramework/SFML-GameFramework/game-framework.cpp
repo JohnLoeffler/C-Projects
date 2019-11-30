@@ -10,7 +10,7 @@ bool GameFramework::GameFramework::Init(){
   return true;
 }
 
-bool GameFramework::GameFramework::Play(){
+int GameFramework::GameFramework::Play(){
   while(Window->isOpen()){
     sf::Event event;
     while(Window->pollEvent(event)){

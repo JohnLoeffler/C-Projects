@@ -8,28 +8,12 @@
 #include <queue>
 
 /* Logger For Framework */
-#include "Headers/logger.h"
+#include "Logger.h"
 
 /* Header Files For The Game Framework */
 
-#include "Headers/game-state.h"
-#include "Headers/game-loop-state.h"
-#include "Headers/game-player.h"
-#include "Headers/game-players.h"
-#include "Headers/game-piece.h"
-#include "Headers/game-pieces.h"
-#include "Headers/game-action.h"
-#include "Headers/game-board.h"
-#include "Headers/game-controller.h"
-#include "Headers/game-framework.h"
-#include "Headers/game-framework-exception.h"
-#include "Headers/game-rule.h"
-#include "Headers/game-rule-set.h"
-#include "Headers/game-file.h"
-#include "Headers/game-file-manager.h"
-#include "Headers/game-framework-functions.h"
+#include "Headers\GameFramework.hpp"
 
-//namespace GFW = GameFramework;
-using namespace Statics;
+//using namespace Statics;
 
 #endif //PCH_H

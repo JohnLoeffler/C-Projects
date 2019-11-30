@@ -4,7 +4,6 @@
 #pragma once
 
 /* Common Includes */
-#include "../../include/limits.h"
 #include <vector>
 #include <exception>
 #include <stdio.h>
@@ -21,8 +20,11 @@
 #include "../Headers/game-board.h"
 #include "../Headers/game-controller.h"
 #include "../Headers/game-state.h"
+#include "../Headers/game-loop-state.h"
 #include "../Headers/game-rule.h"
 #include "../Headers/game-rule-set.h"
+
+#include "../../../Logger/Logger/Logger.h"
 
 using namespace GameFramework;
 namespace GFWK = GameFramework;
