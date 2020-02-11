@@ -2,6 +2,8 @@
 #define PCH_H
 
 /* Common Headers */
+#include <filesystem>
+#include <string>
 
 /* SFML Game Headers */
 #include "../../SFML/include/SFML/Graphics.hpp"
@@ -18,5 +20,7 @@
 #include "../Logger/Logger.h"
 
 /* Namespace Declarations */
+namespace fs = std::filesystem;
+
 
 #endif //PCH_H

@@ -3,6 +3,9 @@
 #pragma once
 
 #include "../Headers/game-framework-exception.h"
+#include "../pch.h"
+#include "../../SFML/include/SFML/Audio.hpp"
+#include "../../SFML/include/SFML/Graphics.hpp"
 #include <map>
 
 namespace GameFramework{
@@ -21,11 +24,17 @@ namespace GameFramework{
       TextureAssetManager(){ Init(); }
       ~TextureAssetManager(){ int i = -1; while(this->TextureMap.size() > 0){ this->TextureMap.erase(++i); } }
 
-      int  LoadAsset(char* name){ sf::Texture* tex = new sf::Texture(); tex->loadFromFile(name); this->TextureMap.insert(std::pair<int, sf::Texture*>(++Position, tex)); }
+      int  LoadAsset(const char* name){ 
+        sf::Texture* tex = new sf::Texture(); 
+        tex->loadFromFile(name); 
+        this->TextureMap.insert(std::pair<int, sf::Texture*>(++Position, tex));
+        return this->GetNumberOfTextures();
+
+      }
       bool ReleaseAsset(unsigned int index){ this->TextureMap.erase(index); }
 
       size_t GetNumberOfTextures(){ return this->TextureMap.size(); }
-      const sf::Texture* GetTexture(unsigned int index){ if(this->TextureMap.size() < (unsigned int)index || index < 0) return nullptr; else return this->TextureMap.at(index); }
+      sf::Texture* GetTexture(unsigned int index){ if(this->TextureMap.size() < (unsigned int)index || index < 0) return nullptr; else return this->TextureMap.at(index); }
     };
 
     class SpriteAssetManager{
@@ -37,11 +46,16 @@ namespace GameFramework{
       SpriteAssetManager(){ Init(); }
       ~SpriteAssetManager(){ int i = -1; while(this->SpriteMap.size() > 0){ this->SpriteMap.erase(++i); } }
 
-      int  LoadAsset(sf::Texture* tex){ sf::Sprite* sprite = new sf::Sprite(); sprite->setTexture(*tex); this->SpriteMap.insert(std::pair<int, sf::Sprite*>(++Position, sprite)); }
+      int  LoadAsset(sf::Texture* tex){ 
+        sf::Sprite* sprite = new sf::Sprite(); 
+        sprite->setTexture(*tex); 
+        this->SpriteMap.insert(std::pair<int, sf::Sprite*>(++Position, sprite));
+        return this->GetNumberOfSprites();
+      }
       bool ReleaseAsset(unsigned int index){ this->SpriteMap.erase(index); }
 
       size_t GetNumberOfSprites(){ return this->SpriteMap.size(); }
-      const sf::Sprite* GetSprite(unsigned int index){ if(this->SpriteMap.size() < (unsigned int)index || index < 0) return nullptr; else return this->SpriteMap.at(index); }
+      sf::Sprite* GetSprite(unsigned int index){ if(this->SpriteMap.size() < (unsigned int)index || index < 0) return nullptr; else return this->SpriteMap.at(index); }
     };
 
     class SoundBufferAssetManager{
@@ -53,11 +67,16 @@ namespace GameFramework{
       SoundBufferAssetManager(){ Init(); }
       ~SoundBufferAssetManager(){ int i = -1; while(this->SoundBufferMap.size() > 0){ this->SoundBufferMap.erase(++i); } }
 
-      int  LoadAsset(char* name){ sf::SoundBuffer* soundBuf = new sf::SoundBuffer(); soundBuf->loadFromFile(name); this->SoundBufferMap.insert(std::pair<int, sf::SoundBuffer*>(++Position, soundBuf)); }
+      int  LoadAsset(const char* name){ 
+        sf::SoundBuffer* soundBuf = new sf::SoundBuffer(); 
+        soundBuf->loadFromFile(name); 
+        this->SoundBufferMap.insert(std::pair<int, sf::SoundBuffer*>(++Position, soundBuf));
+        return this->GetNumberOfSoundBuffers();
+      }
       bool ReleaseAsset(unsigned int index){ this->SoundBufferMap.erase(index); }
 
       size_t GetNumberOfSoundBuffers(){ return this->SoundBufferMap.size(); }
-      const sf::SoundBuffer* GetSoundBuffer(unsigned int index){ if(this->SoundBufferMap.size() < (unsigned int)index || index < 0) return nullptr; else return this->SoundBufferMap.at(index); }
+      sf::SoundBuffer* GetSoundBuffer(unsigned int index){ if(this->SoundBufferMap.size() < (unsigned int)index || index < 0) return nullptr; else return this->SoundBufferMap.at(index); }
     };
 
     class SoundAssetManager{
@@ -69,11 +88,16 @@ namespace GameFramework{
       SoundAssetManager(){ Init(); }
       ~SoundAssetManager(){ int i = -1; while(this->SoundMap.size() > 0){ this->SoundMap.erase(++i); } }
 
-      int  LoadAsset(sf::SoundBuffer* soundBuf){ sf::Sound* sound = new sf::Sound(); sound->setBuffer(*soundBuf); this->SoundMap.insert(std::pair<int, sf::Sound*>(++Position, sound)); }
+      int  LoadAsset(sf::SoundBuffer* soundBuf){ 
+        sf::Sound* sound = new sf::Sound();
+        sound->setBuffer(*soundBuf); 
+        this->SoundMap.insert(std::pair<int, sf::Sound*>(++Position, sound)); 
+        return this->GetNumberOfSounds();
+      }
       bool ReleaseAsset(unsigned int index){ this->SoundMap.erase(index); }
 
       size_t GetNumberOfSounds(){ return this->SoundMap.size(); }
-      const sf::Sound* GetSound(unsigned int index){ if(this->SoundMap.size() < (unsigned int)index || index < 0) return nullptr; else return this->SoundMap.at(index); }
+      sf::Sound* GetSound(unsigned int index){ if(this->SoundMap.size() < (unsigned int)index || index < 0) return nullptr; else return this->SoundMap.at(index); }
     };
 
     class MusicAssetManager{
@@ -85,11 +109,16 @@ namespace GameFramework{
       MusicAssetManager(){ Init(); }
       ~MusicAssetManager(){ int i = -1; while(this->MusicMap.size() > 0){ this->MusicMap.erase(++i); } }
 
-      int  LoadAsset(char* name){ sf::Music* song = new sf::Music(); song->openFromFile(name); this->MusicMap.insert(std::pair<int, sf::Music*>(++Position, song)); }
+      int  LoadAsset(const char* name){ 
+        sf::Music* song = new sf::Music(); 
+        song->openFromFile(name); 
+        this->MusicMap.insert(std::pair<int, sf::Music*>(++Position, song));
+        return this->GetNumberOfSongs();
+      }
       bool ReleaseAsset(unsigned int index){ this->MusicMap.erase(index); }
 
       size_t GetNumberOfSongs(){ return this->MusicMap.size(); }
-      const sf::Music* GetSong(unsigned int index){ if(this->MusicMap.size() < (unsigned int)index || index < 0) return nullptr; else return this->MusicMap.at(index); }
+      sf::Music* GetSong(unsigned int index){ if(this->MusicMap.size() < (unsigned int)index || index < 0) return nullptr; else return this->MusicMap.at(index); }
     };
 
   protected:
@@ -102,19 +131,31 @@ namespace GameFramework{
   public:
     //  Here, create the methods that manage the different Assettypes via setters, getters, and intermediary funtions.
 
-    GameAssetManager();
+    GameAssetManager(){}
 
-    virtual ~GameAssetManager();
+    virtual ~GameAssetManager(){}
 
     /**
     * @fn AddAsset()
     * @brief Adds a Asset to the GameAssetManager
     * @param type The AssetType to be added
     * @param path A string of the path to the file to be loaded
-    * @return true if asset was loaded from the indicated file, false otherwise.
+    * @return Number of assets in the given asset map.
     */
-    bool AddAsset(AssetType type, std::string path){
-      return false;
+    int AddAsset(AssetType type, std::string path){
+      switch(type){
+        case TEXTURE:
+        case SPRITE:
+          this->TextureMap.LoadAsset(path.c_str());
+          return this->SpriteMap.LoadAsset(this->GetTexture(this->GetNumberOfAssets(TEXTURE)-1));
+        case SOUND_FILE:
+        case SOUND_BUFFER:
+          this->SoundBufferMap.LoadAsset(path.c_str());
+          return this->SoundMap.LoadAsset(this->GetSoundBuffer(this->GetNumberOfAssets(SOUND_BUFFER)-1));
+        case MUSIC_FILE:   
+          return this->MusicMap.LoadAsset(path.c_str());
+      }
+      return -1;
     }
     /**
     * @fn GetTexture()
@@ -122,7 +163,7 @@ namespace GameFramework{
     * @param index The index of the texture to retrieve
     * @return A const pointer to the sf::Texture asset; if index is invalid, returns nullptr.
     */
-    const sf::Texture* GetTexture(unsigned int index){
+    sf::Texture* GetTexture(unsigned int index){
       if(index < 0){ return nullptr; } // OOB-Gaurd
       if(index < this->TextureMap.GetNumberOfTextures()){// OOB-Guard
         return this->TextureMap.GetTexture(index);
@@ -136,7 +177,7 @@ namespace GameFramework{
     * @param index The index of the sprite to retrieve
     * @return A const pointer to the sf::Sprite asset; if index is invalid, returns nullptr.
     */
-    const sf::Sprite* GetSprite(unsigned int index){
+    sf::Sprite* GetSprite(unsigned int index){
       if(index < 0){ return nullptr; } // Protects against invalid index
       if(index < this->SpriteMap.GetNumberOfSprites()){// OOB-Guard
         return this->SpriteMap.GetSprite(index);
@@ -150,7 +191,7 @@ namespace GameFramework{
     * @param index The index of the sound buffer to retrieve
     * @return A const pointer to the sf::SoundBuffer asset; if index is invalid, returns nullptr.
     */
-    const sf::SoundBuffer* GetSoundBuffer(unsigned int index){
+    sf::SoundBuffer* GetSoundBuffer(unsigned int index){
       if(index < 0){ return nullptr; } // Protects against invalid index
       if(index < this->SoundBufferMap.GetNumberOfSoundBuffers()){// OOB-Guard
         return this->SoundBufferMap.GetSoundBuffer(index);
@@ -164,7 +205,7 @@ namespace GameFramework{
     * @param index The index of the texture to retrieve
     * @return A const pointer to the sf::Sound asset; if index is invalid, returns nullptr.
     */
-    const sf::Sound* GetSound(unsigned int index){
+    sf::Sound* GetSound(unsigned int index){
       if(index < 0){ return nullptr; } // Protects against invalid index
       if(index < this->SoundMap.GetNumberOfSounds()){// OOB-Guard
         return this->SoundMap.GetSound(index);
@@ -176,9 +217,9 @@ namespace GameFramework{
     * @fn GetSong()
     * @brief Gets a sf::Music from the music map
     * @param index The index of the song to retrieve
-    * @return A const pointer to the sf::Music asset; If index is invalid, returns nullptr.
+    * @return A pointer to the sf::Music asset; If index is invalid, returns nullptr.
     */
-    const sf::Music* GetSong(unsigned int index){
+    sf::Music* GetSong(unsigned int index){
       if(index < 0){ return nullptr; } // Protects against invalid index
       if(index < this->MusicMap.GetNumberOfSongs()){// OOB-Guard
         return this->MusicMap.GetSong(index);
@@ -239,6 +280,7 @@ namespace GameFramework{
         case SOUND_BUFFER: return this->SoundBufferMap.GetNumberOfSoundBuffers();
         case SOUND_FILE:   return this->SoundMap.GetNumberOfSounds();
         case MUSIC_FILE:   return this->MusicMap.GetNumberOfSongs();
+        default:           return 0;
       }
     }
   };

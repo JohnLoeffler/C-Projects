@@ -33,13 +33,20 @@ virtual bool Init();
 * @fn Play()
 * @brief Begins gameplay
 */
-virtual bool Play();
+virtual int Play();
 /**
 * @fn Exit()
 * @brief Exits the game menu and shuts down the program
 */
 virtual bool Exit();
 
+/**
+* @fn LoadAssets(GameAssetManager*, const char*)
+* @brief Loads the assets used for the game
+* @param A pointer to the GameAssetManager
+* @param A string of the path where the file manifest is located
+*/
+virtual int LoadAssets(const char*);
 };
 
 #endif

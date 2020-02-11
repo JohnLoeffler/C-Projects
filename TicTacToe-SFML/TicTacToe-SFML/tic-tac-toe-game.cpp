@@ -1,6 +1,7 @@
 #include "pch.h"
+#include "../../TicTacToe-SFML/TicTacToe-SFML/Headers/tic-tac-toe-game.h"
 
-TicTacToeGame::TicTacToeGame():GameFramework::GameFramework(){
+TicTacToeGame::TicTacToeGame(){
   
 }
 
