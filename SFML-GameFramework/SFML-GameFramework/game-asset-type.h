@@ -1,13 +1,13 @@
 #pragma once
 
-enum AssetType {TEXTURE, SPRITE, SOUND_FILE, MUSIC_FILE, SOUND_BUFFER, ERROR };
+enum GameAssetType {TEXTURE, SPRITE, SOUND_FILE, MUSIC_FILE, SOUND_BUFFER, ERROR };
 
 static bool IsAssetType(const char* type){
   if(type == "TEXTURE" || type == "SPRITE" || type == "SOUND_FILE" || type == "MUSIC_FILE" || type == "SOUND_BUFFER") return true;
   else return false;
 }
 
-static AssetType GetAssetType(const char* type){
+static GameAssetType GetAssetType(const char* type){
   if(type == "TEXTURE"){
     return TEXTURE;
   } else if(type == "SPRITE"){
