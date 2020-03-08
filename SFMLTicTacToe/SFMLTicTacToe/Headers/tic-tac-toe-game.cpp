@@ -37,6 +37,7 @@ int TicTacToeGame::Play(){
     Window->clear();
     Window->display();
   }
+  return 0;
 }
 
 bool TicTacToeGame::Exit(){
