@@ -112,7 +112,7 @@ namespace GameFramework{
     * @return     An int representing the result of the comparison
     * @exception  GameFrameworkException should be thrown if incompatible GamePiece is passed
     */
-    int     Compare(GamePiece* rhs) throw(...) {
+    int     Compare(GamePiece* rhs){
       if( typeid(this) == typeid(rhs)){
         return(this->GetValue() - rhs->GetValue());
       } else{
