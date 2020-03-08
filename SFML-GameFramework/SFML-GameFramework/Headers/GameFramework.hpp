@@ -3,6 +3,7 @@
 #include "../Headers/game-action.h"
 #include "../Headers/game-actor.h"
 #include "../Headers/game-asset-manager.h"
+#include "../Headers/game-asset-type.h"
 #include "../Headers/game-board.h"
 #include "../Headers/game-controller.h"
 #include "../Headers/game-file.h"
