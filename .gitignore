@@ -16,3 +16,15 @@
 /CppProperties.json
 /Game-Framework/Game-Framework-Unit-Tests/Game-Framework-Unit-Tests.vcxproj.filters
 /Game-Framework/Game-Framework-Unit-Tests/Game-Framework-Unit-Tests.vcxproj
+*.ipch
+*.db
+*.lastcodeanalysissucceeded
+*.xml
+*.pchast
+*.idb
+*.vcxproj
+*.filters
+*.sln
+*.opendb
+*.iobj
+*.ipdb

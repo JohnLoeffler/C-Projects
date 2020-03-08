@@ -1,8 +1,11 @@
 #include "pch.h"
 #include <fstream>
+#include <sstream>
+#include <string>
 
 TicTacToeGame::TicTacToeGame(){
   this->Init();
+  this->LoadAssets("Manifest.csv");
   this->Play();
 }
 
@@ -16,6 +19,8 @@ int TicTacToeGame::GameLoop(){
 
 bool TicTacToeGame::Init(){
   this->Window = new sf::RenderWindow(sf::VideoMode(800, 600), "SFML GameFramework's Game Window");
+  // TODO Load Assets Into Asset Manager
+
   return true;
 }
 
@@ -46,6 +51,17 @@ bool TicTacToeGame::Exit(){
 
 int TicTacToeGame::LoadAssets(const char* path){
   int filesLoaded = 0;
+  std::vector<const char*> paths, names;
+  try{
+    std::ifstream fin(path);
+    std::string line;
+    while(fin >> line){
+      if(GameFramework::GameAssetType::IsAssetType(line)){
 
+      }
+    }
+  } catch(std::exception e){
+
+  }
   return filesLoaded;
 }

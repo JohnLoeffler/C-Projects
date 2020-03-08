@@ -40,12 +40,12 @@ public:
   */
   virtual bool Exit();
 
-/**
-* @fn LoadAssets(GameAssetManager*, const char*)
-* @brief Loads the assets used for the game
-* @param A pointer to the GameAssetManager
-* @param A string of the path where the file manifest is located
-*/
+  /**
+  * @fn LoadAssets(GameAssetManager*, const char*)
+  * @brief Loads the assets used for the game
+  * @param A pointer to the GameAssetManager
+  * @param A string of the path where the file manifest is located
+  */
   virtual int LoadAssets(const char*);
 
 };

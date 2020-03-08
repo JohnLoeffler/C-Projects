@@ -1,0 +1,1 @@
+[ INFO ] : e:\programmingfiles\c-cpp\cpp-github-repository\c-projects\sfml-gameframework\sfml-gameframework\sfml-game-framework.cpp(6): IN->main| Testing this shit.
