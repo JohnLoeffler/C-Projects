@@ -2,10 +2,15 @@
 #define PCH_H
 
 /* Common Headers */
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <exception>
 
 /* SFML Game Headers */
 #include "../../SFML/include/SFML/Graphics.hpp"
 #include "../../SFML/include/SFML/Audio.hpp"
+#include "../../SFML/include/SFML/System.hpp"
 
 /* GameFramework Header */
 #include "../Headers/GameFramework.hpp"
